@@ -1,3 +1,4 @@
+inventory = {}
 function weightedRandomChoice(choices, weights) {
     if (choices.length !== weights.length || choices.length === 0) {
         throw new Error("Choices and weights arrays must be non-empty and have the same length.");
@@ -24,8 +25,29 @@ function weightedRandomChoice(choices, weights) {
 
 
 const layer1 = ['stone', 'coal', 'iron','copper','lead','tin','gold'];
-const chances1 = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/32]; //has to be in oreder or else   
-
+const chances1 = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
+function inventorySet(material,amount){
+    if (material in inventory){
+        inventory[material] += amount;
+    }
+    else{
+        inventory[material]=amount;
+    }
+}
 function mine(){
-    console.log(weightedRandomChoice(choices, chances));
+    const ore=(weightedRandomChoice(layer1, chances1))
+    inventorySet(ore,1);
+}
+function inventoryGet() {
+  const container = document.getElementById('log');
+  container.innerHTML = '';
+  for (const key in inventory) {
+    if (inventory.hasOwnProperty(key)) {
+      const value = inventory[key];
+      const pElement = document.createElement('p');
+      pElement.textContent = `You have ${value} of ${key}`;
+      pElement.id="inventoryThingy";
+      container.appendChild(pElement);
+    }
+  }
 }
