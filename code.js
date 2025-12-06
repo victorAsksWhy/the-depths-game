@@ -1,4 +1,8 @@
 inventory = {}
+const FRAME_CAP = 30;
+const FPS_INT = (1000/FRAME_CAP);
+lastTime =  performance.now();
+
 const mineButton = document.getElementById("mineButton");
 let minePending = false;
 let running = true;
@@ -66,11 +70,15 @@ function update(delta){ //will not be good
         minePending=false;
     }
 }
-function loop(){
+function loop(cTime){
+    requestAnimationFrame(loop);
+    const elapsed = cTime - lastTime;
     if (!running){
         return;
     }
-    update();
-    requestAnimationFrame(loop);    
+    if (elapsed > FPS_INT){
+        lastTime = cTime - (elapsed % FPS_INT)
+        update();
+    }        
 }
 requestAnimationFrame(loop);
