@@ -2,7 +2,9 @@ inventory = {}
 const FRAME_CAP = 30;
 const FPS_INT = (1000/FRAME_CAP);
 lastTime =  performance.now();
-
+function testFunction(){
+    alert('something trigged testfunction!')
+}
 const mineButton = document.getElementById("mineButton");
 let minePending = false;
 let running = true;
@@ -60,6 +62,16 @@ function inventoryGet() {
       container.appendChild(pElement);
     }
   }
+}
+function inventoryRemove(material, amount, func){
+    const toExecute = globalThis[func];
+    if (inventory[material]>=amount){
+        toExecute();
+        inventory[material] -= amount
+    }
+    else{
+        console.log(`Could not buy, not enough ${material}.`)
+    }   
 }
 function update(delta){ //will not be good
     // update first
