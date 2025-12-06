@@ -1,6 +1,12 @@
 inventory = {}
 const FRAME_CAP = 30;
 const FPS_INT = (1000/FRAME_CAP);
+const SAVE_INT = 15 * 1000;
+const retrieved = localStorage.getItem('inventory');
+if (retrieved){
+    inventory = JSON.parse(retrieved)
+}
+let timeSinceSave = 0;
 lastTime =  performance.now();
 function testFunction(){
     alert('something trigged testfunction!')
@@ -82,6 +88,16 @@ function update(delta){ //will not be good //what does delta mean
         minePending=false;
     }
 }
+function autosave(){
+    console.log('saving...');
+    try {
+        localStorage.setItem('inventory',JSON.stringify(inventory));
+        console.log('success!')
+    } catch (e){
+        console.log('failure!')
+    }
+
+}
 function loop(cTime){
     requestAnimationFrame(loop);
     const elapsed = cTime - lastTime;
@@ -89,8 +105,15 @@ function loop(cTime){
         return;
     }
     if (elapsed > FPS_INT){
-        lastTime = cTime - (elapsed % FPS_INT)
         update();
-    }        
+        lastTime = cTime - (elapsed % FPS_INT)
+        if (cTime-timeSinceSave >= SAVE_INT){
+            autosave();
+            timeSinceSave = cTime;
+        }
+    }      
 }
-requestAnimationFrame(loop);
+requestAnimationFrame((time) => {
+    timeSinceSave = time;
+    loop(time);
+});
