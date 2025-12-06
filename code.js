@@ -1,4 +1,10 @@
 inventory = {}
+const mineButton = document.getElementById("mineButton");
+let minePending = false;
+let running = true;
+mineButton.addEventListener('click', () =>{
+    minePending=true;
+});
 function weightedRandomChoice(choices, weights) {
     if (choices.length !== weights.length || choices.length === 0) {
         throw new Error("Choices and weights arrays must be non-empty and have the same length.");
@@ -51,3 +57,20 @@ function inventoryGet() {
     }
   }
 }
+function update(delta){ //will not be good
+    // update first
+    inventoryGet();
+    //buttons go below 
+    if (minePending){
+        mine();
+        minePending=false;
+    }
+}
+function loop(){
+    if (!running){
+        return;
+    }
+    update();
+    requestAnimationFrame(loop);    
+}
+requestAnimationFrame(loop);
