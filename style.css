@@ -1,6 +1,8 @@
 #mineButton{
     height:80px;
-    width:200px;
+    width:400px;
+    background-color: rgb(110, 110, 110);
+    font-size: 20px;
 }
 
 body{
@@ -22,6 +24,7 @@ body{
     width:400px;
     background-color: rgb(48, 48, 48);
     border:1px solid black;
+    padding: 2px 4px;
 }
 #refresh{
     position:absolute;

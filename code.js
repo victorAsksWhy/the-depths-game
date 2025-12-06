@@ -36,7 +36,7 @@ function weightedRandomChoice(choices, weights) {
 }
 
 
-const layer1 = ['stone', 'coal', 'iron','copper','lead','tin','gold'];
+const layer1 = ['stone', 'coal', 'raw iron','raw copper','raw lead','raw tin','raw gold'];
 const chances1 = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
 function inventorySet(material,amount){
     if (material in inventory){
@@ -57,7 +57,7 @@ function inventoryGet() {
     if (inventory.hasOwnProperty(key)) {
       const value = inventory[key];
       const pElement = document.createElement('p');
-      pElement.textContent = `You have ${value} of ${key}`;
+      pElement.textContent = `You have ${value} ${key}`;
       pElement.id="inventoryThingy";
       container.appendChild(pElement);
     }
@@ -73,7 +73,7 @@ function inventoryRemove(material, amount, func){
         console.log(`Could not buy, not enough ${material}.`)
     }   
 }
-function update(delta){ //will not be good
+function update(delta){ //will not be good //what does delta mean
     // update first
     inventoryGet();
     //buttons go below 
