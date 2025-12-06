@@ -39,7 +39,7 @@ function mine(){
     inventorySet(ore,1);
 }
 function inventoryGet() {
-  const container = document.getElementById('log');
+  const container = document.getElementById('dynamic');
   container.innerHTML = '';
   for (const key in inventory) {
     if (inventory.hasOwnProperty(key)) {

@@ -9,11 +9,22 @@ body{
 
 #inventoryThingy{
     font-size: 16px;
-    font-family: 'Comic Sans MS';
+    font-family: Arial, Helvetica, sans-serif;
+    color:white;
+}
+#inventoryHead{
+    font-family: Arial, Helvetica, sans-serif;
     color:white;
 }
 #log{
-    height:600px;
-    width:300px;
+    position: relative;
+    height:780px;
+    width:400px;
     background-color: rgb(48, 48, 48);
+    border:1px solid black;
+}
+#refresh{
+    position:absolute;
+    bottom:4px;
+    right:4px;
 }
