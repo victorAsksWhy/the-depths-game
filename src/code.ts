@@ -1,4 +1,6 @@
-inventory = {}
+let inventory : {[key:string] : number}= {
+
+};  
 const FRAME_CAP = 30;
 const FPS_INT = (1000/FRAME_CAP);
 const SAVE_INT = 15 * 1000;
@@ -6,18 +8,18 @@ const retrieved = localStorage.getItem('inventory');
 if (retrieved){
     inventory = JSON.parse(retrieved)
 }
-let timeSinceSave = 0;
-lastTime =  performance.now();
+let timeSinceSave : number = 0;
+let lastTime : number = performance.now();
 function testFunction(){
     alert('something trigged testfunction!')
 }
 const mineButton = document.getElementById("mineButton");
-let minePending = false;
-let running = true;
+let minePending : boolean = false;
+let running : boolean = true;
 mineButton.addEventListener('click', () =>{
     minePending=true;
 });
-function weightedRandomChoice(choices, weights) {
+function weightedRandomChoice(choices : string[], weights: number[]) {
     if (choices.length !== weights.length || choices.length === 0) {
         throw new Error("Choices and weights arrays must be non-empty and have the same length.");
     }
@@ -42,9 +44,9 @@ function weightedRandomChoice(choices, weights) {
 }
 
 
-const layer1 = ['stone', 'coal', 'raw iron','raw copper','raw lead','raw tin','raw gold'];
-const chances1 = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
-function inventorySet(material,amount){
+const layer1 : string[] = ['stone', 'coal', 'raw iron','raw copper','raw lead','raw tin','raw gold'];
+const chances1 : number[] = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
+function inventorySet(material:string,amount:number){
     if (material in inventory){
         inventory[material] += amount;
     }
@@ -69,17 +71,19 @@ function inventoryGet() {
     }
   }
 }
-function inventoryRemove(material, amount, func){
+function inventoryRemove(material:string, amount:number, func:string){
     const toExecute = globalThis[func];
-    if (inventory[material]>=amount){
-        toExecute();
-        inventory[material] -= amount
+    if (typeof toExecute === "function"){
+        if (inventory[material]>=amount){
+            toExecute();
+            inventory[material] -= amount
+        }
+        else{
+            console.log(`Could not buy, not enough ${material}.`)
+        }   
     }
-    else{
-        console.log(`Could not buy, not enough ${material}.`)
-    }   
 }
-function update(delta){ //will not be good //what does delta mean
+function update(){ //will not be good //what does delta mean
     // update first
     inventoryGet();
     //buttons go below 
@@ -98,7 +102,7 @@ function autosave(){
     }
 
 }
-function loop(cTime){
+function loop(cTime:number){
     requestAnimationFrame(loop);
     const elapsed = cTime - lastTime;
     if (!running){
