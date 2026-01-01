@@ -4,16 +4,24 @@
     <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <div id="mineButton">
-        <button id="mineButton">Mine for materials</button>
-    </div>
-    <br>
-    <div id="log">
-        <h2 id="inventoryHead">Inventory</h2>
-        <div id="dynamic">
+    <div id="container" class="container">
+        <div id="leftSideElements" class="item">
+            <div id="mineButton">
+                <button id="mineButton">Mine for materials</button>
+            </div>
+            <br>
+            <div id="log" class="item">
+                <h2 id="inventoryHead">Inventory</h2>
+                <div id="dynamic">
+                </div>
+                <p id="inventory"></p>
+            </div>
         </div>
-        <p id="inventory"></p>
+        <div id="rightSideElements">
+            <button>This button is a test. It does not do stsu</button>
     </div>
-
-    <script src="./src/code.ts"></script>
+    </div>
+    <script type="module" src="./src/inventoryManager.ts"></script>
+    <script type="module" src="./src/code.ts"></script>
+    
 </body>
