@@ -1,5 +1,7 @@
-import {inventoryGet, inventorySet, inventoryRemove, autosave} from './inventoryManager.ts'
+import {inventoryGet, inventorySet, inventoryRemove, autosave, inventoryGetAmount} from './inventoryManager.ts'
 import { weightedRandomChoice } from './random.ts';
+import {craftedOnce, flags, saveCrafting, loadCrafting, meetsRequirements, craft, fetchRecipes, recipes, recipeIDs} from './crafting.ts'
+await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
 const FPS_INT = (1000/FRAME_CAP);
@@ -15,9 +17,6 @@ let running : boolean = true;
 mineButton!.addEventListener('click', () =>{
     minePending=true;
 });
-
-
-
 const layer1 : string[] = ['stone', 'coal', 'raw iron','raw copper','raw lead','raw tin','raw gold'];
 const chances1 : number[] = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
 function mine(){
@@ -33,7 +32,9 @@ function update(){ //will not be good //what does delta mean
         minePending=false;
     }
 }
-
+function craftingWrapperFuntion(id:string):void{
+    craft(recipeIDs[id]);
+}
 function loop(cTime:number){
     requestAnimationFrame(loop);
     const elapsed = cTime - lastTime;
@@ -45,6 +46,7 @@ function loop(cTime:number){
         lastTime = cTime - (elapsed % FPS_INT)
         if (cTime-timeSinceSave >= SAVE_INT){
             autosave();
+            saveCrafting();
             timeSinceSave = cTime;
         }
     }      
@@ -53,3 +55,5 @@ requestAnimationFrame((time) => {
     timeSinceSave = time;
     loop(time);
 });
+
+

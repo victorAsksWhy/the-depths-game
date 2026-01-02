@@ -1,5 +1,6 @@
 export type Inventory = Record<string,number>;
 type Callback = () => void;
+
 const inventory: Inventory = (()=>{
     const rawData = localStorage.getItem('inventory');
     if (!rawData) return Object.create(null);
@@ -12,7 +13,7 @@ const inventory: Inventory = (()=>{
 
 })();
 function autosave(){
-    console.log('saving...');
+    console.log('saving inventory...');
     try {
         localStorage.setItem('inventory',JSON.stringify(inventory));
         console.log('success!')
@@ -42,10 +43,17 @@ function inventoryGet():void {
         }
     }
 }
+/**
+ * Remove items from the inventory. Use inventory[item] -= x instead.
+ * 
+ * @param material material to remove
+ * @param amount amount to remove
+ * @param callback function to call on sucess
+ * @returns 
+ */
 function inventoryRemove(
     material:string,
     amount:number, 
-    callback?:Callback
 ):  boolean {
     const amountOfItem = inventory[material] ?? 0;
     if (inventory[material]<amount){
@@ -54,10 +62,9 @@ function inventoryRemove(
         
     }
     inventory[material] -= amount
-    if (callback){
-        callback();
-    }
     return true;
 }
-
-export {autosave, inventoryGet,inventoryRemove,inventorySet}
+function inventoryGetAmount(material:string):number{
+    return inventory[material] ?? 0;
+}
+export {autosave, inventoryGet,inventoryRemove,inventorySet, inventoryGetAmount, inventory}

@@ -1,0 +1,15 @@
+[ 
+  {
+    "id": "smeltery",
+    "humanName": "Smeltery",
+    "inputs": { "stone": 12 },
+    "outputs": { "smeltery": 1 }
+  },
+  {
+    "id": "ironIngotViaCoal",
+    "humanName": "Iron Ingot",
+    "inputs": { "raw iron": 1, "coal": 1 },
+    "outputs": { "Iron Ingot": 1 },
+    "requires": { "crafted": ["smeltery"] }
+  }
+]
