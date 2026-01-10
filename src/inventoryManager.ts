@@ -50,6 +50,7 @@ function inventoryRemove(
 ):  boolean {
     const amountOfItem = inventory[material] ?? 0;
     if (inventory[material]<amount){
+
         console.log(`Could not buy, not enough ${material}.`)
         return false;
     }

@@ -11,6 +11,7 @@ export interface Recipe{
     inputs: Record<string,number>;
     outputs: Record<string,number>;
     flavorText: string;
+    isSpecial: boolean;
     requires?:{
         items?: Record<string,number>; // these are not consumed.
         crafted?: string[];
@@ -20,8 +21,7 @@ export interface Recipe{
         crafted?:string[];
         flags?: string[];
     };
-    setsFlags?: string;
-
+    setsFlags?: string; 
 }
 function saveCrafting():void{
     try{
@@ -110,7 +110,8 @@ function meetsRequirements(recipe:Recipe):boolean{
     }
     return true;
 }
-function craft(recipe:Recipe):boolean{
+function craft(recipe:Recipe, count:number):boolean{
+    renderCraftingButtons();
     if(!meetsRequirements(recipe)){
         return false;
     }
@@ -118,16 +119,23 @@ function craft(recipe:Recipe):boolean{
         console.log(isBlocked(recipe));
         return false;
     }
-    console.log(`DEBUG: Recipe ${recipe.id} is blocked? ${isBlocked(recipe)}`)
     for (const [itemName, amount] of Object.entries(recipe.inputs)){
-        console.log(`[DEBUG] planning to remove ${amount} of ${itemName}`)
-        if(inventoryRemove(itemName,amount)==false){
+        console.log(`[DBG] ${amount} of ${itemName} is needed.`);
+        if(inventory[itemName]===undefined){
+            return false;
+        }
+        if ((inventory[itemName]<amount*count)){
+            console.error(`[DEBUG] not enough ${itemName}`);
+            return false;
+        }
+        console.log(`[DEBUG] planning to remove ${amount*count} of ${itemName}`)
+        if(inventoryRemove(itemName,amount*count)==false){
             return false;
         }
     }
     for (const [itemName, amount] of Object.entries(recipe.outputs)){
-        console.log(`[DEBUG] planning to add ${amount} of ${itemName}`)
-        inventorySet(itemName,amount);
+        console.log(`[DEBUG] planning to add ${amount*count} of ${itemName}`)
+        inventorySet(itemName,amount*count);
     }
     if (recipe.setsFlags){
         for (const settingFlag of recipe.setsFlags){
@@ -163,7 +171,7 @@ console.log(recipes);
 function renderCraftingButtons(){
     const container = document.getElementById("craftingButtons");
     container!.innerHTML=""
-
+    const targets : number[] = [1,5,10,25,50,100,250,500]
     for (const recipe of recipes){
         if (!meetsRequirements(recipe)){
             continue;
@@ -171,11 +179,16 @@ function renderCraftingButtons(){
         if(isBlocked(recipe)){
             continue;
         }
-        const newButton = document.createElement("button");
-        newButton.textContent = recipe.humanName;
-        newButton.dataset.recipeID=recipe.id;
-        newButton.disabled=!meetsRequirements;
-        container?.appendChild(newButton);
+        for (const target of targets){
+            const newButton = document.createElement("button");
+            newButton.textContent = `${recipe.humanName} x${target}` ;
+            newButton.dataset.recipeID=recipe.id;
+            newButton.dataset.count=String(target);
+            newButton.disabled=!meetsRequirements;
+            container?.appendChild(newButton);
+            container?.appendChild(document.createElement("br"));
+        }
+
     }
 }
 const container = document.getElementById("craftingButtons");
@@ -185,11 +198,12 @@ container?.addEventListener("click", (event)=>{
         return;
     }
     const recipeID = target.dataset.recipeID!;
+    const count = target.dataset.count!;
     const recipe = recipeIDs[recipeID];
     if (!recipe){
         return;
     }
-    craft(recipe);
+    craft(recipe,Number(count));
 });
 
 await fetchRecipes();

@@ -13,6 +13,6 @@
     "humanName": "Iron Ingot",
     "inputs": { "raw iron": 1, "coal": 1 },
     "outputs": { "Iron Ingot": 1 },
-    "requires": {"flags":["smelteryCreated"]}
+    "requires": {"flags":["smelteryCreated" ]}
   }
 ]
