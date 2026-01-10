@@ -1,6 +1,6 @@
-import {inventoryGet, inventorySet, inventoryRemove, autosave, inventoryGetAmount,inventory} from './inventoryManager.ts'
-import { weightedRandomChoice } from './random.ts';
-import {craftedOnce, flags, saveCrafting, loadCrafting,  craft, fetchRecipes, recipes, recipeIDs, renderCraftingButtons} from './crafting.ts'
+import {inventoryGet, inventorySet, inventoryRemove, autosave, inventoryGetAmount,inventory} from './inventoryManager'
+import { weightedRandomChoice } from './random';
+import {craftedOnce, flags, saveCrafting, loadCrafting,  craft, fetchRecipes, recipes, recipeIDs, renderCraftingButtons} from './crafting'
 
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
