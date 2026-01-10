@@ -148,7 +148,7 @@ function craft(recipe:Recipe, count:number):boolean{
 }
 async function fetchRecipes():Promise<void>{
     try {
-        const resource = await fetch('/src/recipe.json');
+        const resource = await fetch('/public/recipe.json');
         console.log(`[DEBUG] Resource is a ${typeof resource}`);
         if (!resource.ok){
             alert("Critical error: failed to load recipes.");
