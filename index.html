@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <head>
     <title>Mine</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <div id="mineButton">
-        <button id="mineButton">Mine for materials</button>
-    </div>
-    <br>
-    <div id="log">
-        <h2 id="inventoryHead">Inventory</h2>
-        <div id="dynamic">
+    <div id="container" class="container">
+        <div id="leftSideElements" class="item">
+            <div id="mineButton">
+                <button id="mineButton">Mine for materials</button>
+            </div>
+            <br>
+            <div id="log" class="item">
+                <h2 id="inventoryHead">Inventory</h2>
+                <div id="dynamic">
+                </div>
+                <p id="inventory"></p>
+            </div>
         </div>
-        <p id="inventory"></p>
+        <div id="rightSideElements">
+            <h2>Crafting</h2>
+            <div id="craftingButtons">
+                
+            </div>
+            <h2>Dev buttons</h2>
+            <div id="devButtons">
+                <button id="wipeSave">Wipe save</button>
+                <br>
+                <button id="showFlags">Show flags</button>
+                <br>
+                <button id="showCrafted">Show crafted</button>
+                <br>
+                <button id="clearFlags">Clear flags</button>
+                <br>
+                <button id="clearCrafted">Clear crafted</button>
+                <br>
+                <button id="9999everything">9999 everything</button>
+            </div>
+        </div>
     </div>
-
-    <script src="./code.js"></script>
+    <script type="module" src="./src/inventoryManager.ts"></script>
+    <script type="module" src="./src/code.ts"></script>
+    <script type="module" src="./src/crafting.ts"></script>
+    
 </body>

@@ -3,10 +3,12 @@
     width:400px;
     background-color: rgb(110, 110, 110);
     font-size: 20px;
+    padding: 2px 4px;
+    border-radius: 10px;
 }
 
-body{
-    background-image: url('./mine.jpg');
+body {
+  background: #ffffff url("/mine.png") no-repeat fixed center center / cover;
 }
 
 #inventoryThingy{
@@ -25,9 +27,14 @@ body{
     background-color: rgb(48, 48, 48);
     border:2px solid white;
     padding: 2px 4px;
+    border-radius: 10px;
 }
 #refresh{
     position:absolute;
     bottom:4px;
     right:4px;
+}
+#container{
+    display:flex;
+    gap: 20px;
 }
