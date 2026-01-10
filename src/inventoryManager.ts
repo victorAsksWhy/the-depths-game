@@ -13,14 +13,7 @@ const inventory: Inventory = (()=>{
 
 })();
 function autosave(){
-    console.log('saving inventory...');
-    try {
-        localStorage.setItem('inventory',JSON.stringify(inventory));
-        console.log('success!')
-    } catch (e){
-        console.log('failure!')
-    }
-
+    localStorage.setItem('inventory',JSON.stringify(inventory));
 }
 function inventorySet(material:string,amount:number):void{
     if (material in inventory){
@@ -34,12 +27,12 @@ function inventoryGet():void {
     const container = document.getElementById('dynamic');
     container!.innerHTML = '';
     for (const key in inventory) {
-        if (inventory.hasOwnProperty(key)) {
-        const value = inventory[key];
-        const pElement = document.createElement('p');
-        pElement.textContent = `You have ${value} ${key}`;
-        pElement.id="inventoryThingy";
-        container!.appendChild(pElement);
+        if (Object.prototype.hasOwnProperty.call(inventory,key)) {
+            const value = inventory[key];
+            const pElement = document.createElement('p');
+            pElement.textContent = `You have ${value} ${key}`;
+            pElement.id="inventoryThingy";
+            container!.appendChild(pElement);
         }
     }
 }
@@ -59,7 +52,6 @@ function inventoryRemove(
     if (inventory[material]<amount){
         console.log(`Could not buy, not enough ${material}.`)
         return false;
-        
     }
     inventory[material] -= amount
     return true;

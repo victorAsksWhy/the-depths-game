@@ -1,6 +1,8 @@
 import { inventoryRemove, inventoryGetAmount , inventory, inventorySet} from "./inventoryManager";
 const craftedOnce = loadCrafting("craftedItems");
 const flags = loadCrafting("flags");
+console.log("DEBUG: Flags",flags);
+console.log("DEBUG: crafted",craftedOnce);
 let recipes : Recipe[]=[];
 let recipeIDs : Record<string,Recipe>={};
 export interface Recipe{
@@ -8,20 +10,25 @@ export interface Recipe{
     humanName: string;
     inputs: Record<string,number>;
     outputs: Record<string,number>;
+    flavorText: string;
     requires?:{
         items?: Record<string,number>; // these are not consumed.
         crafted?: string[];
         flags?: string[];
     };
+    blockedBy?:{
+        crafted?:string[];
+        flags?: string[];
+    };
+    setsFlags?: string;
+
 }
 function saveCrafting():void{
-    console.log('Saving crafted items...')
     try{
         localStorage.setItem(
             "craftedItems",
             JSON.stringify([...craftedOnce])
         );
-        console.log("Sucess!");
     }
     catch(e){
         console.log("Failure")
@@ -32,7 +39,6 @@ function saveCrafting():void{
             "flags",
             JSON.stringify([...flags])
         );
-        console.log("Sucess!");
     }
     catch(e){
         console.log("Failure")
@@ -50,12 +56,35 @@ function loadCrafting(key: string): Set<string> {
     return new Set<string>();
   }
 }
+function isBlocked(recipe:Recipe):boolean{
+    const disable = recipe.blockedBy;
+    if (!disable){
+        return false;
+    }
+    if (disable?.crafted){
+        for (const craft of disable.crafted){
+            if (craftedOnce.has(craft)){
+                return true;
+            };
+        }
+    }
+    if(disable?.flags){
+        for (const flag of disable.flags){
+            if (flags.has(flag)){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 function meetsRequirements(recipe:Recipe):boolean{
 
     const req = recipe.requires;
+
     if (req === undefined){
         return true;
     }
+    
     console.log(req);
     if (req!.items){ //check for items (not ingredients; these act as a gate and are not consumed.)
         for (const item in req!.items){
@@ -81,21 +110,33 @@ function meetsRequirements(recipe:Recipe):boolean{
     }
     return true;
 }
-function craft(recipe:Recipe){
+function craft(recipe:Recipe):boolean{
     if(!meetsRequirements(recipe)){
         return false;
-    }   
-    for (const items in recipe.inputs){
-        const amount = recipe.inputs[items];
-        const itemName = items;
+    }
+    if(isBlocked(recipe)){
+        console.log(isBlocked(recipe));
+        return false;
+    }
+    console.log(`DEBUG: Recipe ${recipe.id} is blocked? ${isBlocked(recipe)}`)
+    for (const [itemName, amount] of Object.entries(recipe.inputs)){
         console.log(`[DEBUG] planning to remove ${amount} of ${itemName}`)
-        inventoryRemove(itemName,amount);
+        if(inventoryRemove(itemName,amount)==false){
+            return false;
+        }
     }
-    for (const outputs in recipe.outputs){
-        console.log(`[DEBUG] planning to add ${recipe.outputs[outputs]} of ${outputs}`)
-        inventorySet(outputs,recipe.outputs[outputs]);
+    for (const [itemName, amount] of Object.entries(recipe.outputs)){
+        console.log(`[DEBUG] planning to add ${amount} of ${itemName}`)
+        inventorySet(itemName,amount);
     }
-
+    if (recipe.setsFlags){
+        for (const settingFlag of recipe.setsFlags){
+            flags.add(settingFlag)
+        }
+    }
+    craftedOnce.add(recipe.id);
+    renderCraftingButtons();
+    return true;
 }
 async function fetchRecipes():Promise<void>{
     try {
@@ -127,6 +168,9 @@ function renderCraftingButtons(){
         if (!meetsRequirements(recipe)){
             continue;
         }
+        if(isBlocked(recipe)){
+            continue;
+        }
         const newButton = document.createElement("button");
         newButton.textContent = recipe.humanName;
         newButton.dataset.recipeID=recipe.id;
@@ -153,5 +197,5 @@ buildRecipeMap();
 renderCraftingButtons();
 console.log(recipeIDs);
 
-export {craftedOnce, flags, saveCrafting, loadCrafting, meetsRequirements, craft, fetchRecipes, recipes, recipeIDs}
+export {craftedOnce, flags, saveCrafting, loadCrafting, craft, fetchRecipes, renderCraftingButtons,recipes, recipeIDs}
 
