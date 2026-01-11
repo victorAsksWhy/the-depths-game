@@ -173,22 +173,33 @@ function renderCraftingButtons(){
     container!.innerHTML=""
     const targets : number[] = [1,5,10,25,50,100,250,500]
     for (const recipe of recipes){
+        console.log(recipe.isSpecial)
         if (!meetsRequirements(recipe)){
             continue;
         }
         if(isBlocked(recipe)){
             continue;
         }
-        for (const target of targets){
+        if(recipe.isSpecial){           
             const newButton = document.createElement("button");
-            newButton.textContent = `${recipe.humanName} x${target}` ;
+            newButton.textContent = `${recipe.humanName}` ;
             newButton.dataset.recipeID=recipe.id;
-            newButton.dataset.count=String(target);
             newButton.disabled=!meetsRequirements;
             container?.appendChild(newButton);
             container?.appendChild(document.createElement("br"));
         }
 
+        if(!recipe.isSpecial){
+            for (const target of targets){            
+                const newButton = document.createElement("button");
+                newButton.textContent = `${recipe.humanName} x${target}` ;
+                newButton.dataset.recipeID=recipe.id;
+                newButton.dataset.count=String(target);
+                newButton.disabled=!meetsRequirements;
+                container?.appendChild(newButton);
+                container?.appendChild(document.createElement("br"));
+            }
+        }
     }
 }
 const container = document.getElementById("craftingButtons");
@@ -198,12 +209,21 @@ container?.addEventListener("click", (event)=>{
         return;
     }
     const recipeID = target.dataset.recipeID!;
-    const count = target.dataset.count!;
-    const recipe = recipeIDs[recipeID];
-    if (!recipe){
-        return;
+    if (target.dataset.count){
+        const recipe = recipeIDs[recipeID];
+        if (!recipe){
+            return;
+        }
+        craft(recipe,1);
     }
-    craft(recipe,Number(count));
+    if (!target.dataset.count){
+        const count=1;
+        const recipe = recipeIDs[recipeID];
+        if (!recipe){
+            return;
+        }
+        craft(recipe,Number(count));
+    }
 });
 
 await fetchRecipes();

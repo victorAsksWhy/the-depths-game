@@ -5,7 +5,8 @@
     "inputs": { "stone": 12 },
     "outputs": { "smeltery": 1 },
     "setsFlags": ["smelteryCreated"],
-    "blockedBy": {"flags":["smelteryCreated"]}
+    "blockedBy": {"flags":["smelteryCreated"]},
+    "isSpecial": true
     
   },
   {
@@ -13,6 +14,7 @@
     "humanName": "Iron Ingot",
     "inputs": { "raw iron": 1, "coal": 1 },
     "outputs": { "Iron Ingot": 1 },
-    "requires": {"flags":["smelteryCreated" ]}
+    "requires": {"flags":["smelteryCreated" ]},
+    "isSpecial": false
   }
 ]
