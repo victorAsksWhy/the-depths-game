@@ -30,6 +30,7 @@ body {
     border:2px solid white;
     padding: 2px 4px;
     border-radius: 10px;
+    overflow:scroll;
 }
 #refresh{
     position:absolute;
@@ -41,9 +42,10 @@ body {
     gap: 20px;
 }
 .craft-header {
+    font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     font-weight: bold;
-    margin: 5px 0;
+    margin: 0 0;
     background-color: rgb(48,48,48);
     color: #fff;
     padding: 5px 10px;
@@ -83,6 +85,7 @@ body {
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
+    margin-bottom: 5px;
 }
 .craftingButton:hover{
     background-color: rgba(255, 255, 255, 0.1);
