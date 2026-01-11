@@ -111,7 +111,6 @@ function meetsRequirements(recipe:Recipe):boolean{
     return true;
 }
 function craft(recipe:Recipe, count:number):boolean{
-    renderCraftingButtons();
     if(!meetsRequirements(recipe)){
         return false;
     }
@@ -143,7 +142,6 @@ function craft(recipe:Recipe, count:number):boolean{
         }
     }
     craftedOnce.add(recipe.id);
-    renderCraftingButtons();
     return true;
 }
 async function fetchRecipes():Promise<void>{
@@ -167,41 +165,54 @@ function buildRecipeMap(){
         recipeIDs[recipe.id] = recipe;
     }
 }
-console.log(recipes);
-function renderCraftingButtons(){
-    const container = document.getElementById("craftingButtons");
-    container!.innerHTML=""
-    const targets : number[] = [1,5,10,25,50,100,250,500]
-    for (const recipe of recipes){
-        console.log(recipe.isSpecial)
-        if (!meetsRequirements(recipe)){
-            continue;
-        }
-        if(isBlocked(recipe)){
-            continue;
-        }
-        if(recipe.isSpecial){           
-            const newButton = document.createElement("button");
-            newButton.textContent = `${recipe.humanName}` ;
-            newButton.dataset.recipeID=recipe.id;
-            newButton.disabled=!meetsRequirements;
-            container?.appendChild(newButton);
-            container?.appendChild(document.createElement("br"));
-        }
+function createButton(recipe: Recipe, count: number) {
+    const btn = document.createElement("button");
+    btn.textContent = `${recipe.humanName} x${count}`;
+    btn.dataset.recipeID = recipe.id;
+    btn.dataset.count = String(count);
+    btn.className="craftingButton";
+    btn.disabled = !meetsRequirements(recipe) || isBlocked(recipe);
 
-        if(!recipe.isSpecial){
-            for (const target of targets){            
-                const newButton = document.createElement("button");
-                newButton.textContent = `${recipe.humanName} x${target}` ;
-                newButton.dataset.recipeID=recipe.id;
-                newButton.dataset.count=String(target);
-                newButton.disabled=!meetsRequirements;
-                container?.appendChild(newButton);
-                container?.appendChild(document.createElement("br"));
+    return btn;
+}
+console.log(recipes);
+function renderCraftingButtons() {
+    const container = document.getElementById("craftingButtons");
+    if (!container) return;
+    container.innerHTML = "";
+
+    const bulkTargets = [1, 5, 10, 25, 50, 100, 250, 500];
+
+    for (const recipe of recipes) {
+        if (!meetsRequirements(recipe) || isBlocked(recipe)) continue;
+
+        // Create collapsible container
+        const header = document.createElement("div");
+        header.className = "craft-header";
+        header.textContent = recipe.humanName;
+
+        const collapsible = document.createElement("div");
+        collapsible.className = "craft-container";
+
+        // Populate buttons inside
+        if (recipe.isSpecial) {
+            collapsible.appendChild(createButton(recipe,1));
+        } else {
+            for (const target of bulkTargets) {
+                collapsible.appendChild(createButton(recipe, target));
             }
         }
+        // Toggle expand/collapse on click
+        header.addEventListener("click", () => {
+            collapsible.classList.toggle("show");
+        });
+
+        // Append header + collapsible to container
+        container.appendChild(header);
+        container.appendChild(collapsible);
     }
 }
+
 const container = document.getElementById("craftingButtons");
 container?.addEventListener("click", (event)=>{
     const target = event.target as HTMLButtonElement; // as type HTMLButton...
@@ -214,7 +225,7 @@ container?.addEventListener("click", (event)=>{
         if (!recipe){
             return;
         }
-        craft(recipe,1);
+        craft(recipe,Number(target.dataset.count));
     }
     if (!target.dataset.count){
         const count=1;
@@ -222,7 +233,7 @@ container?.addEventListener("click", (event)=>{
         if (!recipe){
             return;
         }
-        craft(recipe,Number(count));
+        craft(recipe,1);
     }
 });
 
