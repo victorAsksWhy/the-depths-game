@@ -86,7 +86,6 @@ function meetsRequirements(recipe:Recipe):boolean{
         return true;
     }
     
-    console.log(req);
     if (req!.items){ //check for items (not ingredients; these act as a gate and are not consumed.)
         for (const item in req!.items){
            if ((inventory[item] ?? 0) < req!.items[item]) {
@@ -198,7 +197,8 @@ function renderCraftingButtons() {
         collapsible.className = "craft-container";
         collapsible.id="craftContainer";
 
-
+        const panel = document.createElement('div');
+        panel.className="craft-panel";
         // Populate buttons inside
         if (recipe.isSpecial) {
             collapsible.appendChild(createButton(recipe,1));
@@ -217,8 +217,9 @@ function renderCraftingButtons() {
         });
 
         // Append header + collapsible to container
-        container.appendChild(header);
-        container.appendChild(collapsible);
+        panel.appendChild(header);
+        panel.appendChild(collapsible);
+        container.appendChild(panel);
     }
 }
 const container = document.getElementById("craftingButtons");
