@@ -203,17 +203,39 @@ function renderCraftingButtons() {
         if (recipe.isSpecial) {
             collapsible.appendChild(createButton(recipe,1));
         } else {
-            for (const target of bulkTargets) {
-                collapsible.appendChild(createButton(recipe, target));
-            }
+            const inputForm = document.createElement("input");
+            inputForm.type="number";
+            inputForm.min='0';
+            inputForm.id=`buttonInput-${Number(Math.random)*Number(Math.random)}`;
+            inputForm.placeholder='How many to craft?';
+            const label = document.createElement("label");
+            label.htmlFor=`${inputForm.id}`;
+            label.innerHTML=`Craft ${recipe.humanName}: `
+            label.style.fontFamily='Arial, Helective, sans-serif';
+            label.style.color='white';
+            const button = document.createElement("button");
+            button.className="craftingButton";
+            button.innerHTML="Craft";
+            button.addEventListener("click", (e)=>{
+                craft(recipe,Number(inputForm.value));
+            })
+            collapsible.append(label);
+            collapsible.append(inputForm);
+            collapsible.append(button);
+            
         }
         if (expandedRecipes.has(recipe.id)){
             collapsible.classList.toggle("show");   
         }
         // Toggle expand/collapse on click
         header.addEventListener("click", () => {
-            expandedRecipes.add(recipe.id);
-            collapsible.classList.toggle("show");
+            const status = collapsible.classList.toggle("show");
+            if (status){
+                expandedRecipes.add(recipe.id);
+            }
+            else{
+                expandedRecipes.delete(recipe.id);
+            }
         });
 
         // Append header + collapsible to container
