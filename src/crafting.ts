@@ -225,9 +225,7 @@ function renderCraftingButtons() {
             const inputForm = document.createElement('input');
             inputForm.type = 'number';
             inputForm.min = '0';
-            inputForm.id = `buttonInput-${
-                Number(Math.random) * Number(Math.random)
-            }`;
+            inputForm.id = `buttonInput-${String(Number(Math.random) * Number(Math.random))}`;
             inputForm.placeholder = 'How many to craft?';
             const label = document.createElement('label');
             label.htmlFor = `${inputForm.id}`;
