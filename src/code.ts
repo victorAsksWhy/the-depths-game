@@ -46,14 +46,14 @@ showCrafted!.addEventListener('click', ()=>{
 });
 maxMaterials!.addEventListener('click', ()=>{
     for (const material of layer1){
-        inventorySet(material,9999);
+        inventorySet(material,9999,false);
     }
 });
 const layer1 : string[] = ['stone', 'coal', 'raw iron','raw copper','raw lead','raw tin','raw gold'];
 const chances1 : number[] = [1/2, 1/3, 1/4,1/6,1/8,1/16,1/40]; //has to be in oreder or else   
 function mine(){
     const ore=(weightedRandomChoice(layer1, chances1))
-    inventorySet(ore,1);
+    inventorySet(ore,1,false);
 }
 function update(){ //will not be good //what does delta mean
     // update first

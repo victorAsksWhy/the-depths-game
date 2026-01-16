@@ -49,7 +49,7 @@
         "requires": {"flags":["smelteryCreated" ]},
         "isSpecial": false
     },
-        {
+    {
         "id": "ironPick",
         "humanName": "Iron Pickaxe",
         "inputs": { "Iron Ingot": 5},
@@ -58,5 +58,13 @@
         "isSpecial": true,
         "blockedBy":{"flags":["ironPickCrafted"]},
         "setsFlags":["ironPickCrafted"]
+    },
+    {
+        "id": "dummyRecipe",
+        "humanName": "dummy recipe",
+        "inputs": {"stone":1},
+        "outputs":{"Iron Ingot":1234},
+        "flavorText":"dummy recipe flavor text test"
+
     }
 ]

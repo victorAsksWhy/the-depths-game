@@ -1,24 +1,31 @@
 #mineButton{
-    height:80px;
-    width:400px;
-    background-color: rgb(110, 110, 110);
+    height:80px;    
+    background: #808080;
+    background: linear-gradient(135deg, rgba(128, 128, 128, 1) 0%, rgba(97, 97, 97, 1) 2%, rgb(138, 138, 138) 100%);
     font-size: 20px;
-    padding: 2px 4px;
-    border-radius: 10px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    margin:4px;
+    height:80px
+}
+body {
+    background: linear-gradient(
+        180deg,
+        rgb(18, 22, 28) 0%,
+        rgb(32, 38, 46) 100%
+    );
 }
 
-body {
-  background: #ffffff url("/mine.png") no-repeat fixed center center / cover;
-}
 
 #inventoryThingy{
     font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:white;
-    margin-left:5px;
+    margin-left:4px;
+    height:50%;
 }
 #inventoryHead{
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:white;
     text-align: center;
 }
@@ -26,10 +33,12 @@ body {
     position: relative;
     height:780px;
     width:400px;
-    background-color: rgb(48, 48, 48);
+    background: #262626;
+    background: linear-gradient(180deg,rgba(38, 38, 38, 1) 0%, rgb(60, 60, 60) 100%);
     border:2px solid white;
-    padding: 2px 4px;
+    padding: 6px 8px;
     border-radius: 10px;
+    margin:4px;
     overflow:scroll;
 }
 #refresh{
@@ -42,37 +51,42 @@ body {
     gap: 20px;
 }
 .craft-header {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     font-weight: bold;
     margin: 0 0;
-    background-color: rgb(48,48,48);
+    background-color: rgba(48, 48, 48, 0);
     color: #fff;
+    border-color: var(--accent);
+    border:2px solid;
     padding: 5px 10px;
-    border-radius: 4px;
-    margin-bottom: 5px;
+    border-radius: 10px;
+    margin-bottom: 4px;
 }
 
 .craft-container {
     overflow: hidden;
     max-height: 0;
-    transition: max-height 0.3s ease;
-    margin-left: 5px;
-    margin-right: 5px;
+    transition: max-height 0.3s ease ;
+    margin-left: 4px;
+    margin-right: 4px;
+    background: #262626;
+    background: linear-gradient(180deg,rgba(38, 38, 38, 1) 0%, rgb(60, 60, 60) 100%);
 }
 
 .craft-container.show {
     max-height: 1000px; /* large enough for content */
+    transition: max-height 0.3s ease ;
     
 }
 
 .craft-container button {
     display: block;
-    margin: 3px 0;
+    margin: 4px 0;
 }
 #craftingButtons{
     background-color: rgba(110, 110, 110, 0);
-    border-radius: 5px;
+    border-radius: 8px;
     display:flex;
     flex-wrap:wrap;
     align-items: flex-start;
@@ -80,10 +94,10 @@ body {
 }
 .craftingButton {
     background-color: rgba(67,67,67, 0);
-    border: 1px solid rgb(255, 255, 255);   
+    border: 2px solid rgb(255, 255, 255);   
     color: rgb(255, 255, 255);
     padding: 8px 16px;
-    border-radius:5px;
+    border-radius:4px;
     width: 100%;
     text-align: center;
     text-decoration: none;
@@ -94,21 +108,110 @@ body {
 }
 .craftingButton:hover{
     background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgb(255, 255, 255);
-    color: rgb(255, 255, 255);
-    padding: 8px 16px;
-    border-radius:5px;
-    width: 100%;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
+    transition: background-color 0.3s ease-in-out
+    
 }
 .craft-panel {
-    background: #222;
+    background: #262626;
+    background: linear-gradient(180deg,rgba(38, 38, 38, 1) 0%, rgb(60, 60, 60) 100%);
     border-radius: 8px;
-    padding: 8px;
+    padding: 6px 8px;
+    margin: 4px;
     width: 220px;        /* fixed width works best */
     box-sizing: border-box;
+    border-width: 2px;
+}
+.infoText{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:white;
+}
+.flavorText{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:rgb(139, 139, 139);
+    font-style: italic;
+}
+input{
+    background-color: #26262600;
+    border-radius: 4px;
+    border: 2px rgba(255,255,255,0.7) solid;
+    color: white;
+    margin-bottom: 4px;
+    padding: 2px 4px;
+}
+#box{
+    background: #262626;
+    background: linear-gradient(90deg,rgba(38, 38, 38, 1) 0%, rgb(60, 60, 60) 100%);
+    border: 2px white solid;
+    border-radius: 8px;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 72px;
+    margin: 4px;
+    text-align: center;
+    padding:2px 4px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    display:flex;
+    align-items:flex-start;
+    gap: 20px;
+    justify-content: center;
+}
+#leftSideElements, #rightSideElements {
+  display: flex;
+  flex-direction: column;
+}
+#log,
+.craft-panel,
+.craft-container,
+#box {
+    background: linear-gradient(
+        180deg,
+        rgb(32, 32, 32) 0%,
+        rgb(58, 58, 58) 100%
+    );
+}
+#log,
+.craft-panel,
+#box,
+#mineButton,
+.craft-header,
+.craftingButton {
+    border-color: rgba(255, 255, 255, 0.7);
+}
+:root {
+    --accent: rgb(130, 180, 220);
+}
+#mineButton,
+.craftingButton {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+#mineButton:active,
+.craftingButton:active {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    border-color: var(--accent);
+}
+.infoText {
+    line-height: 1.35;
+}
+
+.flavorText {
+    font-size: 13px;
+}
+input {
+    background-color: rgba(255,255,255,0.05);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+#log {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+#devButtons{
+    display: none;
 }
