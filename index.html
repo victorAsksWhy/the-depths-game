@@ -1,8 +1,41 @@
 <!DOCTYPE html>
 <head>
     <title>Mine</title>
+    <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-    <button onclick="mine()">mine</button>
-    <script src="./code.js"></script>
+    <div id="container" class="container">
+        <div id="leftSideElements" class="item">
+            <button id="mineButton">Mine for materials</button>
+            <br>
+            <div id="log" class="item">
+                <h2 id="inventoryHead">Inventory</h2>
+                <div id="dynamic">
+                </div>
+                <p id="inventory"></p>
+            </div>
+        </div>
+        <div id="rightSideElements">
+            <div id="box"><h2 style="font-family: Arial, Helvetica, sans-serif;">Crafting</h2></div>
+            
+            <div id="craftingButtons"></div>
+            <div id="devButtons">
+                <button id="wipeSave">Wipe save</button>
+                <br>
+                <button id="showFlags">Show flags</button>
+                <br>
+                <button id="showCrafted">Show crafted</button>
+                <br>
+                <button id="clearFlags">Clear flags</button>
+                <br>
+                <button id="clearCrafted">Clear crafted</button>
+                <br>
+                <button id="9999everything">9999 everything</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./src/inventoryManager.ts"></script>
+    <script type="module" src="./src/code.ts"></script>
+    <script type="module" src="./src/crafting.ts"></script>
+    
 </body>
