@@ -135,15 +135,19 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
             return false;
         }
     }
-    if (special){
+    if (special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
-            console.log(`[DEBUG] planning to add ${amount * count} of ${itemName}`);
+            console.log(
+                `[DEBUG] planning to add ${amount * count} of ${itemName}`
+            );
             inventorySet(itemName, amount * count, true);
         }
     }
-    if (!special){
+    if (!special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
-            console.log(`[DEBUG] planning to add ${amount * count} of ${itemName}`);
+            console.log(
+                `[DEBUG] planning to add ${amount * count} of ${itemName}`
+            );
             inventorySet(itemName, amount * count, false);
         }
     }
