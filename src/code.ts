@@ -28,6 +28,7 @@ wipesave!.addEventListener('click',()=>{
     localStorage.setItem('inventory',JSON.stringify([]));
     localStorage.setItem('craftedItems',JSON.stringify([]));
     localStorage.setItem('flags',JSON.stringify([]));
+    localStorage.setItem('specialInventory',JSON.stringify([]));    
     location.reload();
 });
 clearFlags!.addEventListener('click',()=>{

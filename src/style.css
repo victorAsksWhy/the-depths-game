@@ -49,26 +49,15 @@ body {
     color: white;
     text-align: center;
 }
-#log {
+#log,
+#logSpecial {
     position: relative;
-    height: 780px;
+    height: 50%;
     width: 400px;
-    background: #262626;
-    background: linear-gradient(
-        180deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
-    border: 2px solid white;
     padding: 6px 8px;
     border-radius: 10px;
     margin: 4px;
-    overflow: scroll;
-}
-#refresh {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
+    overflow-y: auto;
 }
 #container {
     display: flex;
@@ -126,13 +115,13 @@ body {
         rgb(40, 50, 70) 100%
     );  
     box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
-    border: 2px solid var(--accent);
     color: rgb(255, 255, 255);
+    border: 2px solid var(--accent);
+
     padding: 8px 16px;
     border-radius: 4px;
     width: 100%;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
@@ -151,17 +140,10 @@ body {
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 8px var(--accent-glow);
 }
 .craft-panel {
-    background: #262626;
-    background: linear-gradient(
-        180deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
     border-radius: 8px;
     padding: 6px 8px;
     margin: 4px;
     width: 220px;
-    border: 2px solid var(--accent);
     box-sizing: border-box;
     border-width: 2px;
 }
@@ -188,25 +170,6 @@ input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
 }
-#box {
-    background: #262626;
-    background: linear-gradient(
-        90deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
-    border: 2px white solid;
-    border-radius: 8px;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 72px;
-    margin: 4px;
-    text-align: center;
-    padding: 2px 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 .container {
     display: flex;
     align-items: flex-start;
@@ -224,10 +187,6 @@ input:focus {
     --panel-dark: rgb(20, 25, 35);     
     --panel-mid: rgb(32, 38, 50);      
     --panel-light: rgb(50, 60, 80);   
-}
-#mineButton,
-.craftingButton {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 #mineButton:active,
 .craftingButton:active {
@@ -249,24 +208,42 @@ input:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
-}
-#log {
+}   
+#log,
+#logSpecial {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    overflow: auto;
+    height: 390px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
-#devButtons {
-    display: none;
-}
+
 #mineButton,
-#log,   
+#log,
+#logSpecial,   
 #box,   
 .craft-panel,
 .craftingButton{
-    border-color: var(--accent);
+    border-color: 2px solid var(--accent);
     box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
     transition: all 0.2s ease;
 }
+#box {
+    border-radius: 8px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 72px;
+    margin: 4px;
+    text-align: center;
+    padding: 2px 4px;
+    display: flex;
+    width: 1381px;
+    justify-content: center;
+    align-items: center;
+}
 #log,
+#logSpecial,
 #box,
 .craft-panel {
     background: linear-gradient(
@@ -277,5 +254,4 @@ input:focus {
     );
     border: 2px solid var(--accent);
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
 }

@@ -16,7 +16,7 @@ const inventory: Inventory = (() => {
 console.log(`Tried to load inventory ${inventory} ${typeof inventory}`);
 const specialInventory: Inventory = (() => {
     const rawData = localStorage.getItem('specialInventory');
-    if (!rawData) return Object.create(null);
+    if (!rawData) return {};
     try {
         return JSON.parse(rawData) as Inventory;
     } catch {
@@ -34,22 +34,24 @@ function inventorySet(
     amount: number,
     special: boolean
 ): void {
-    if (special) {
+    if (special === false) {
         if (material in inventory) {
             inventory[material] += amount;
         } else {
             inventory[material] = amount;
         }
-    } else {
-        if (material in inventory) {
-            inventory[material] += amount;
+    } else if (special === true) {
+        if (material in specialInventory) {
+            specialInventory[material] += amount;
         } else {
-            inventory[material] = amount;
+            specialInventory[material] = amount;
         }
     }
 }
 function inventoryGet(): void {
     const container = document.getElementById('dynamic');
+    const specialContainer = document.getElementById('specialDynamic');
+    specialContainer.innerHTML='';
     container!.innerHTML = '';
     for (const key in inventory) {
         if (Object.prototype.hasOwnProperty.call(inventory, key)) {
@@ -58,6 +60,14 @@ function inventoryGet(): void {
             pElement.textContent = `You have ${value} ${key}`;
             pElement.id = 'inventoryThingy';
             container!.appendChild(pElement);
+        }
+    }
+    for (const key in specialInventory) {
+        if (Object.prototype.hasOwnProperty.call(specialInventory, key)) {
+            const pElement = document.createElement('p');
+            pElement.textContent = `You have ${key}`;
+            pElement.id = 'specialInventoryThingy';
+           specialContainer!.appendChild(pElement);
         }
     }
 }
@@ -94,5 +104,6 @@ export {
     inventoryRemove,
     inventorySet,
     inventoryGetAmount,
+    inventoryCheck,
     inventory,
 };
