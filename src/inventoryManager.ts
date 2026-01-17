@@ -16,9 +16,9 @@ const specialInventory: Inventory = (() => {
     const rawData = localStorage.getItem('specialInventory');
     if (!rawData) return {};
     try {
-        return JSON.parse(rawData) as Inventory;
+        const parsed = JSON.parse(rawData);
+        return Array.isArray(parsed) ? {} : parsed;
     } catch {
-        console.error('Save data failed to load');
         return {};
     }
 })();
