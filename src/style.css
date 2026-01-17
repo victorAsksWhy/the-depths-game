@@ -1,6 +1,6 @@
 #mineButton {
     height: 80px;
-    color:white;
+    color: white;
     background: linear-gradient(
         135deg,
         rgb(30, 40, 60) 0%,
@@ -22,10 +22,14 @@
         rgb(70, 90, 130) 50%,
         rgb(50, 60, 90) 100%
     );
-    box-shadow: 0 4px 10px rgba(0,0,0,0.45), 0 0 12px var(--accent-glow);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.45),
+        0 0 12px var(--accent-glow);
 }
 #mineButton:active {
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 8px var(--accent-glow);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 8px var(--accent-glow);
 }
 body {
     background: linear-gradient(
@@ -49,26 +53,15 @@ body {
     color: white;
     text-align: center;
 }
-#log {
+#log,
+#logSpecial {
     position: relative;
-    height: 780px;
+    height: 50%;
     width: 400px;
-    background: #262626;
-    background: linear-gradient(
-        180deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
-    border: 2px solid white;
     padding: 6px 8px;
     border-radius: 10px;
     margin: 4px;
-    overflow: scroll;
-}
-#refresh {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
+    overflow-y: auto;
 }
 #container {
     display: flex;
@@ -87,7 +80,9 @@ body {
     color: #fff;
     padding: 5px 10px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 0 8px var(--accent-glow);
     margin-bottom: 4px;
 }
 
@@ -98,7 +93,6 @@ body {
     margin-left: 4px;
     margin-right: 4px;
     border-radius: 8px;
-
 }
 
 .craft-container.show {
@@ -124,15 +118,17 @@ body {
         rgb(40, 50, 70) 0%,
         rgb(60, 80, 120) 50%,
         rgb(40, 50, 70) 100%
-    );  
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
-    border: 2px solid var(--accent);
+    );
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 0 8px var(--accent-glow);
     color: rgb(255, 255, 255);
+    border: 2px solid var(--accent);
+
     padding: 8px 16px;
     border-radius: 4px;
     width: 100%;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
@@ -145,23 +141,20 @@ body {
         rgb(90, 120, 180) 50%,
         rgb(60, 80, 120) 100%
     );
-    box-shadow: 0 4px 10px rgba(0,0,0,0.45), 0 0 12px var(--accent-glow);
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.45),
+        0 0 12px var(--accent-glow);
 }
 .craftingButton:active {
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 8px var(--accent-glow);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 8px var(--accent-glow);
 }
 .craft-panel {
-    background: #262626;
-    background: linear-gradient(
-        180deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
     border-radius: 8px;
     padding: 6px 8px;
     margin: 4px;
     width: 220px;
-    border: 2px solid var(--accent);
     box-sizing: border-box;
     border-width: 2px;
 }
@@ -177,7 +170,7 @@ body {
 input {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 6px;
-    width:192px;
+    width: 192px;
     border: 2px solid var(--accent);
     padding: 4px 6px;
     color: white;
@@ -187,25 +180,6 @@ input:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
-}
-#box {
-    background: #262626;
-    background: linear-gradient(
-        90deg,
-        rgba(38, 38, 38, 1) 0%,
-        rgb(60, 60, 60) 100%
-    );
-    border: 2px white solid;
-    border-radius: 8px;
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 72px;
-    margin: 4px;
-    text-align: center;
-    padding: 2px 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .container {
     display: flex;
@@ -221,17 +195,15 @@ input:focus {
 :root {
     --accent: rgb(130, 180, 220);
     --accent-glow: rgba(130, 180, 220, 0.5);
-    --panel-dark: rgb(20, 25, 35);     
-    --panel-mid: rgb(32, 38, 50);      
-    --panel-light: rgb(50, 60, 80);   
-}
-#mineButton,
-.craftingButton {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    --panel-dark: rgb(20, 25, 35);
+    --panel-mid: rgb(32, 38, 50);
+    --panel-light: rgb(50, 60, 80);
 }
 #mineButton:active,
 .craftingButton:active {
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 8px var(--accent-glow);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 8px var(--accent-glow);
     border-color: var(--accent);
 }
 .infoText {
@@ -250,23 +222,43 @@ input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
 }
-#log {
+#log,
+#logSpecial {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    overflow: auto;
+    height: 390px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
-#devButtons {
-    display: none;
-}
+
 #mineButton,
-#log,   
-#box,   
+#log,
+#logSpecial,
+#box,
 .craft-panel,
-.craftingButton{
-    border-color: var(--accent);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
+.craftingButton {
+    border-color: 2px solid var(--accent);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 0 8px var(--accent-glow);
     transition: all 0.2s ease;
 }
+#box {
+    border-radius: 8px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 72px;
+    margin: 4px;
+    text-align: center;
+    padding: 2px 4px;
+    display: flex;
+    width: 1381px;
+    justify-content: center;
+    align-items: center;
+}
 #log,
+#logSpecial,
 #box,
 .craft-panel {
     background: linear-gradient(
@@ -277,5 +269,4 @@ input:focus {
     );
     border: 2px solid var(--accent);
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 8px var(--accent-glow);
 }

@@ -12,15 +12,13 @@ const inventory: Inventory = (() => {
         return {};
     }
 })();
-
-console.log(`Tried to load inventory ${inventory} ${typeof inventory}`);
 const specialInventory: Inventory = (() => {
     const rawData = localStorage.getItem('specialInventory');
-    if (!rawData) return Object.create(null);
+    if (!rawData) return {};
     try {
-        return JSON.parse(rawData) as Inventory;
+        const parsed = JSON.parse(rawData);
+        return Array.isArray(parsed) ? {} : parsed;
     } catch {
-        console.error('Save data failed to load');
         return {};
     }
 })();
@@ -34,22 +32,24 @@ function inventorySet(
     amount: number,
     special: boolean
 ): void {
-    if (special) {
+    if (special === false) {
         if (material in inventory) {
             inventory[material] += amount;
         } else {
             inventory[material] = amount;
         }
-    } else {
-        if (material in inventory) {
-            inventory[material] += amount;
+    } else if (special === true) {
+        if (material in specialInventory) {
+            specialInventory[material] += amount;
         } else {
-            inventory[material] = amount;
+            specialInventory[material] = amount;
         }
     }
 }
 function inventoryGet(): void {
     const container = document.getElementById('dynamic');
+    const specialContainer = document.getElementById('specialDynamic');
+    specialContainer.innerHTML = '';
     container!.innerHTML = '';
     for (const key in inventory) {
         if (Object.prototype.hasOwnProperty.call(inventory, key)) {
@@ -57,7 +57,19 @@ function inventoryGet(): void {
             const pElement = document.createElement('p');
             pElement.textContent = `You have ${value} ${key}`;
             pElement.id = 'inventoryThingy';
+            if (value === 0) {
+                pElement.innerHTML = '';
+                continue;
+            }
             container!.appendChild(pElement);
+        }
+    }
+    for (const key in specialInventory) {
+        if (Object.prototype.hasOwnProperty.call(specialInventory, key)) {
+            const pElement = document.createElement('p');
+            pElement.textContent = `You have ${key}`;
+            pElement.id = 'specialInventoryThingy';
+            specialContainer!.appendChild(pElement);
         }
     }
 }
@@ -83,9 +95,9 @@ function inventoryGetAmount(material: string): number {
 }
 function inventoryCheck(material: string) {
     if (specialInventory[material] > 0) {
-        return false;
-    } else {
         return true;
+    } else {
+        return false;
     }
 } //only works on specialInventory
 export {
@@ -94,5 +106,7 @@ export {
     inventoryRemove,
     inventorySet,
     inventoryGetAmount,
+    inventoryCheck,
     inventory,
+    specialInventory,
 };

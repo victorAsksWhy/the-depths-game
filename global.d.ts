@@ -1,7 +1,7 @@
 declare global {
-  interface Window {
-    inventory: { [key: string]: number };
-  }
+    interface Window {
+        inventory: { [key: string]: number };
+    }
 }
 
 export {};
