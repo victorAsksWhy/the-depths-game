@@ -1,20 +1,19 @@
-[ 
+[
     {
         "id": "smeltery",
         "humanName": "Smeltery",
         "inputs": { "stone": 12 },
         "outputs": { "smeltery": 1 },
         "setsFlags": ["smelteryCreated"],
-        "blockedBy": {"flags":["smelteryCreated"]},
+        "blockedBy": { "flags": ["smelteryCreated"] },
         "isSpecial": true
-    
     },
     {
         "id": "ironIngotViaCoal",
         "humanName": "Iron Ingot",
         "inputs": { "raw iron": 1, "coal": 1 },
         "outputs": { "Iron Ingot": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
     {
@@ -22,7 +21,7 @@
         "humanName": "Copper Ingot",
         "inputs": { "raw copper": 1, "coal": 1 },
         "outputs": { "Copper Ingot": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
     {
@@ -30,7 +29,7 @@
         "humanName": "Tin Ingot",
         "inputs": { "raw tin": 1, "coal": 1 },
         "outputs": { "Tin Ingot": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
     {
@@ -38,7 +37,7 @@
         "humanName": "Lead Ingot",
         "inputs": { "raw lead": 1, "coal": 1 },
         "outputs": { "Lead ingot": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
     {
@@ -46,25 +45,23 @@
         "humanName": "Gold Ingot",
         "inputs": { "raw gold": 1, "coal": 1 },
         "outputs": { "Gold Ingot": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
     {
         "id": "ironPick",
         "humanName": "Iron Pickaxe",
-        "inputs": { "Iron Ingot": 5},
+        "inputs": { "Iron Ingot": 5 },
         "outputs": { "Iron Pickaxe": 1 },
-        "requires": {"flags":["smelteryCreated" ]},
+        "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": true,
-        "blockedBy":{"flags":["ironPickCrafted"]},
-        "setsFlags":["ironPickCrafted"]
+        "blockedBy": { "crafted": ["ironPick"] }
     },
     {
         "id": "dummyRecipe",
         "humanName": "dummy recipe",
-        "inputs": {"stone":1},
-        "outputs":{"Iron Ingot":1234},
-        "flavorText":"dummy recipe flavor text test"
-
+        "inputs": { "stone": 1 },
+        "outputs": { "Iron Ingot": 1234 },
+        "flavorText": "dummy recipe flavor text test"
     }
 ]

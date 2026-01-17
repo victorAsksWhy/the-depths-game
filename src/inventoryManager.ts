@@ -12,8 +12,6 @@ const inventory: Inventory = (() => {
         return {};
     }
 })();
-
-console.log(`Tried to load inventory ${inventory} ${typeof inventory}`);
 const specialInventory: Inventory = (() => {
     const rawData = localStorage.getItem('specialInventory');
     if (!rawData) return {};
@@ -51,7 +49,7 @@ function inventorySet(
 function inventoryGet(): void {
     const container = document.getElementById('dynamic');
     const specialContainer = document.getElementById('specialDynamic');
-    specialContainer.innerHTML='';
+    specialContainer.innerHTML = '';
     container!.innerHTML = '';
     for (const key in inventory) {
         if (Object.prototype.hasOwnProperty.call(inventory, key)) {
@@ -59,6 +57,10 @@ function inventoryGet(): void {
             const pElement = document.createElement('p');
             pElement.textContent = `You have ${value} ${key}`;
             pElement.id = 'inventoryThingy';
+            if (value === 0) {
+                pElement.innerHTML = '';
+                continue;
+            }
             container!.appendChild(pElement);
         }
     }
@@ -67,7 +69,7 @@ function inventoryGet(): void {
             const pElement = document.createElement('p');
             pElement.textContent = `You have ${key}`;
             pElement.id = 'specialInventoryThingy';
-           specialContainer!.appendChild(pElement);
+            specialContainer!.appendChild(pElement);
         }
     }
 }
@@ -93,9 +95,9 @@ function inventoryGetAmount(material: string): number {
 }
 function inventoryCheck(material: string) {
     if (specialInventory[material] > 0) {
-        return false;
-    } else {
         return true;
+    } else {
+        return false;
     }
 } //only works on specialInventory
 export {
@@ -106,4 +108,5 @@ export {
     inventoryGetAmount,
     inventoryCheck,
     inventory,
+    specialInventory,
 };
