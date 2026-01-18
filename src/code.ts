@@ -20,6 +20,7 @@ import {
     recipeIDs,
     renderCraftingButtons,
 } from './crafting';
+import { mine } from './mining';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
@@ -78,22 +79,7 @@ const layer1: string[] = [
     'raw gold',
 ];
 const chances1: number[] = [1 / 2, 1 / 3, 1 / 4, 1 / 6, 1 / 8, 1 / 16, 1 / 40]; //has to be in oreder or else
-function calculateMinePower(): number {
-    let power: number = 1;
-    if (inventoryCheck('Iron Pickaxe')) {
-        power += 1;
-    }
-    return power;
-}
-function mine() {
-    let power = calculateMinePower();
-    while (power > 0) {
-        const ore = weightedRandomChoice(layer1, chances1);
-        inventorySet(ore, 1, false);
-        power--;
-    }
-    power = 0;
-}
+
 function update() {
     //will not be good //what does delta mean
     // update first

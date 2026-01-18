@@ -1,0 +1,28 @@
+[
+    {
+        "minDepth": 0,
+        "humanName": "Random hole",
+        "id": "layerHole",
+        "flavorText": "A random whole you dug in your backyard.",
+        "associatedOres": [
+            "stone",
+            "coal",
+            "raw iron",
+            "raw copper",
+            "raw lead",
+            "raw tin",
+            "raw gold"
+        ],
+        "associatedChances": ["1/2", "1/3", "1/4", "1/6", "1/8", "1/16", "1/40"]
+    },
+    {
+        "minDepth": 1000,
+        "humanName": "test layer",
+        "id": "layerTest",
+        "flavorText": "A test layer",
+        "associatedOres": [
+            "testium"
+        ],
+        "associatedChances": ["1/1"]
+    }
+]
