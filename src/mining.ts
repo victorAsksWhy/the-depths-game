@@ -10,8 +10,30 @@ export interface Layer {
 }
 let layers: Layer[] = [];
 let currentLayer: number = 0;
-let chances: number[][];
-let ores: string[][];
+let depth: number = 0;
+export function increaseDepth(amount: number) { // will need to expand on this later
+    depth += amount;
+}
+export function getLayerObjectByIdHelper(id: string): Layer | undefined {
+    return layers.find((layer) => layer.id === id);
+}
+export function getLayerIndexByIdHelper(id: string): number | undefined {
+    return layers.findIndex((layer) => layer.id === id);
+}
+export function getCurrentDepthHelper():number{
+    return depth;
+}
+export function getCurrentLayerHelper():number{
+    return currentLayer;
+}
+export function changeLayer(desiredLayer: Layer): boolean {
+    if (depth >= desiredLayer.minDepth) {
+        currentLayer = getLayerIndexByIdHelper(desiredLayer.id);
+        return true;
+    } else {
+        return false;
+    }
+}
 function calculateMinePower(): number {
     let power: number = 1;
     if (inventoryCheck('Iron Pickaxe')) {
@@ -22,7 +44,7 @@ function calculateMinePower(): number {
 export function mine() {
     let power = calculateMinePower();
     while (power > 0) {
-        const ore = weightedRandomChoice(['1,', '1'], [1, 2]);
+        const ore = weightedRandomChoice(layers[currentLayer].associatedOres,layers[currentLayer].associatedChances as number[]);
         inventorySet(ore, 1, false);
         power--;
     }
@@ -59,11 +81,12 @@ export function chanceStringToNumberHelper() {
         );
     }
 }
+async function init() {
+    await fetchDepths();
+    chanceStringToNumberHelper();
+    console.log(`[DBG] ran conversion script`);
+}
 console.log(`[DBG] loaded script ${import.meta.url}`);
 window.addEventListener('DOMContentLoaded', async () => {
-    await fetchDepths();
-    chanceStringToNumberHelper();   
-    console.log(`[DBG] ran conversion script`);
+    await init();
 });
-
-

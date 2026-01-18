@@ -1,7 +1,7 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
 import { saveCrafting, fetchRecipes } from './crafting';
 import { mine, chanceStringToNumberHelper } from './mining';
-import './mining';
+import { getLayerIndexByIdHelper, getLayerObjectByIdHelper, getCurrentDepthHelper,getCurrentLayerHelper } from './mining';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
