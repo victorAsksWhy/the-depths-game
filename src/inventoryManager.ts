@@ -110,3 +110,4 @@ export {
     inventory,
     specialInventory,
 };
+console.log(`[DBG] loaded script ${import.meta.url}`);

@@ -24,3 +24,4 @@ function weightedRandomChoice(choices: string[], weights: number[]): string {
     return choices[choices.length - 1];
 }
 export { weightedRandomChoice };
+console.log(`[DBG] loaded script ${import.meta.url}`);
