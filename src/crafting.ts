@@ -6,8 +6,6 @@ import {
 } from './inventoryManager';
 const craftedOnce = loadCrafting('craftedItems');
 const flags = loadCrafting('flags');
-console.log('DEBUG: Flags', flags);
-console.log('DEBUG: crafted', craftedOnce);
 let recipes: Recipe[] = [];
 let recipeIDs: Record<string, Recipe> = {};
 const expandedRecipes = new Set<string>();
@@ -111,7 +109,6 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
         return false;
     }
     if (isBlocked(recipe)) {
-        console.log(isBlocked(recipe));
         return false;
     }
     if (recipe.setsFlags) {
@@ -120,34 +117,24 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
         }
     }
     for (const [itemName, amount] of Object.entries(recipe.inputs)) {
-        console.log(`[DBG] ${amount} of ${itemName} is needed.`);
         if (inventory[itemName] === undefined) {
             return false;
         }
         if (inventory[itemName] < amount * count) {
-            console.error(`[DEBUG] not enough ${itemName}`);
+            console.error(`[DBG] not enough ${itemName}`);
             return false;
         }
-        console.log(
-            `[DEBUG] planning to remove ${amount * count} of ${itemName}`
-        );
         if (inventoryRemove(itemName, amount * count) == false) {
             return false;
         }
     }
     if (special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
-            console.log(
-                `[DEBUG] planning to add ${amount * count} of ${itemName}`
-            );
             inventorySet(itemName, amount * count, true);
         }
     }
     if (!special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
-            console.log(
-                `[DEBUG] planning to add ${amount * count} of ${itemName}`
-            );
             inventorySet(itemName, amount * count, false);
         }
     }
@@ -158,15 +145,12 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
 async function fetchRecipes(): Promise<void> {
     try {
         const resource = await fetch('/recipe.json');
-        console.log(`[DEBUG] Resource is a ${typeof resource}`);
         if (!resource.ok) {
             alert('Critical error: failed to load recipes.');
             throw new Error('Failed to load recipes');
         }
         const data: Recipe[] = await resource.json();
         recipes = data;
-        console.log(recipes);
-        console.log(recipes[0]);
     } catch (e) {
         console.error(e);
     }
@@ -187,7 +171,6 @@ function createButton(recipe: Recipe, count: number, special: boolean) {
 
     return btn;
 }
-console.log(recipes);
 function renderCraftingButtons() {
     const container = document.getElementById('craftingButtons');
     if (!container) return;
@@ -306,8 +289,7 @@ container?.addEventListener('click', (event) => {
 
 await fetchRecipes();
 buildRecipeMap();
-renderCraftingButtons();
-console.log(recipeIDs);
+renderCraftingButtons()
 
 export {
     craftedOnce,
@@ -320,3 +302,4 @@ export {
     recipes,
     recipeIDs,
 };
+console.log(`[DBG] loaded script ${import.meta.url}`);

@@ -1,26 +1,7 @@
-import {
-    inventoryGet,
-    inventorySet,
-    inventoryRemove,
-    autosave,
-    inventoryGetAmount,
-    inventory,
-    specialInventory,
-    inventoryCheck,
-} from './inventoryManager';
-import { weightedRandomChoice } from './random';
-import {
-    craftedOnce,
-    flags,
-    saveCrafting,
-    loadCrafting,
-    craft,
-    fetchRecipes,
-    recipes,
-    recipeIDs,
-    renderCraftingButtons,
-} from './crafting';
-import { mine } from './mining';
+import { inventoryGet, inventorySet, autosave } from './inventoryManager';
+import { saveCrafting, fetchRecipes } from './crafting';
+import { mine, chanceStringToNumberHelper } from './mining';
+import './mining';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
@@ -62,7 +43,7 @@ showFlags!.addEventListener('click', () => {
     alert(localStorage.getItem('flags'));
 });
 showCrafted!.addEventListener('click', () => {
-    alert(localStorage.getItem('craftedItems'));
+    chanceStringToNumberHelper();
 });
 maxMaterials!.addEventListener('click', () => {
     for (const material of layer1) {
@@ -111,3 +92,4 @@ requestAnimationFrame((time) => {
     timeSinceSave = time;
     loop(time);
 });
+console.log(`[DBG] loaded script ${import.meta.url}`);
