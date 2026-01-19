@@ -1,5 +1,4 @@
 export type Inventory = Record<string, number>;
-type Callback = () => void;
 
 const inventory: Inventory = (() => {
     const raw = localStorage.getItem('inventory');

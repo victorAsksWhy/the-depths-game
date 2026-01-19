@@ -36,7 +36,7 @@
         "id": "leadViaCoal",
         "humanName": "Lead Ingot",
         "inputs": { "raw lead": 1, "coal": 1 },
-        "outputs": { "Lead ingot": 1 },
+        "outputs": { "Lead Ingot": 1 },
         "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": false
     },
@@ -55,7 +55,8 @@
         "outputs": { "Iron Pickaxe": 1 },
         "requires": { "flags": ["smelteryCreated"] },
         "isSpecial": true,
-        "blockedBy": { "crafted": ["ironPick"] }
+        "blockedBy": { "crafted": ["ironPick"] },
+        "setsFlags": ["ironPickCreated"]
     },
     {
         "id": "dummyRecipe",
@@ -63,5 +64,29 @@
         "inputs": { "stone": 1 },
         "outputs": { "Iron Ingot": 1234 },
         "flavorText": "dummy recipe flavor text test"
+    },
+    {
+        "id": "goldPick",
+        "humanName": "Gold Pickaxe",
+        "inputs": { "Gold Ingot": 5 },
+        "outputs": { "Gold Pickaxe": 1 },
+        "requires": { "flags": ["smelteryCreated"] },
+        "isSpecial": true,
+        "blockedBy": { "crafted": ["goldPick"] },
+        "setsFlags": ["goldPickCreated"]
+    },
+    {
+        "id": "largeDrill",
+        "humanName": "Comically Large Drill [WIP]",
+        "inputs": {
+            "Iron Ingot": 40,
+            "Gold Ingot": 5,
+            "Copper Ingot": 20,
+            "Lead Ingot": 10
+        },
+        "outputs": { "Comically large drill": 1 },
+        "isSpecial": true,
+        "blockedBy": { "crafted": ["largeDrill"] },
+        "requires": { "flags": ["goldPickCreated", "ironPickCreated"] }
     }
 ]

@@ -59,7 +59,6 @@ const layer1: string[] = [
     'raw tin',
     'raw gold',
 ];
-const chances1: number[] = [1 / 2, 1 / 3, 1 / 4, 1 / 6, 1 / 8, 1 / 16, 1 / 40]; //has to be in oreder or else
 
 function update() {
     //will not be good //what does delta mean

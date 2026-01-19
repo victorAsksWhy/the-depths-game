@@ -106,9 +106,11 @@ function meetsRequirements(recipe: Recipe): boolean {
 }
 function craft(recipe: Recipe, count: number, special: boolean): boolean {
     if (!meetsRequirements(recipe)) {
+        console.log('was not meeting requrement');
         return false;
     }
     if (isBlocked(recipe)) {
+        console.log('Was blocked');
         return false;
     }
     if (recipe.setsFlags) {
@@ -118,29 +120,36 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
     }
     for (const [itemName, amount] of Object.entries(recipe.inputs)) {
         if (inventory[itemName] === undefined) {
+            console.log('inventory error');
             return false;
         }
         if (inventory[itemName] < amount * count) {
             console.error(`[DBG] not enough ${itemName}`);
             return false;
         }
+    }
+    for (const [itemName, amount] of Object.entries(recipe.inputs)) {
         if (inventoryRemove(itemName, amount * count) == false) {
+            console.log('removal failure');
             return false;
         }
-    }
+        }
     if (special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
             inventorySet(itemName, amount * count, true);
+            console.log(`[DBG] tried to set ${itemName}`);
         }
     }
     if (!special) {
         for (const [itemName, amount] of Object.entries(recipe.outputs)) {
+            console.log(`[DBG] ${amount} of ${itemName}`);
             inventorySet(itemName, amount * count, false);
+            console.log(`[DBG] tried to set ${itemName}`);
         }
-    }
     craftedOnce.add(recipe.id);
     renderCraftingButtons();
     return true;
+    }
 }
 async function fetchRecipes(): Promise<void> {
     try {
@@ -200,8 +209,6 @@ function renderCraftingButtons() {
             inputInfo.className = 'infoText';
             collapsible.appendChild(inputInfo);
         }
-
-        // Populate buttons inside
         if (recipe.isSpecial) {
             collapsible.appendChild(createButton(recipe, 1, true));
             if (recipe.flavorText) {
@@ -262,7 +269,7 @@ function renderCraftingButtons() {
 }
 const container = document.getElementById('craftingButtons');
 container?.addEventListener('click', (event) => {
-    const target = event.target as HTMLButtonElement; // as type HTMLButton...
+    const target = event.target as HTMLButtonElement;
     if (target.tagName !== 'BUTTON') {
         return;
     }
@@ -277,6 +284,7 @@ container?.addEventListener('click', (event) => {
             Number(target.dataset.count),
             Boolean(target.dataset.special)
         );
+        console.log(`[DBG] tried to craft ${recipe.id}`);
     }
     if (!target.dataset.count) {
         const recipe = recipeIDs[recipeID];
@@ -284,12 +292,13 @@ container?.addEventListener('click', (event) => {
             return;
         }
         craft(recipe, 1, Boolean(target.dataset.special));
+        console.log(`[DBG] tried to craft ${recipe.id}`);
     }
 });
 
 await fetchRecipes();
 buildRecipeMap();
-renderCraftingButtons()
+renderCraftingButtons();
 
 export {
     craftedOnce,
