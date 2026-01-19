@@ -39,7 +39,6 @@ body {
         rgb(12, 16, 24) 100%
     );
     color: white;
-    background-image: url('/public/art.png');
 }
 
 #inventoryThingy {
