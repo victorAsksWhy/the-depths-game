@@ -112,6 +112,9 @@ function meetsRequirements(recipe: Recipe): boolean {
     return true;
 }
 function craft(recipe: Recipe, count: number, special: boolean): boolean {
+    if (!recipe){
+        return false;
+    }
     if (!meetsRequirements(recipe)) {
         console.log('was not meeting requrement');
         return false;
