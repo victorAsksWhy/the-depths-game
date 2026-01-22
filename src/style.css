@@ -105,8 +105,6 @@ body {
     margin: 4px 0;
 }
 #craftingButtons {
-    background-color: rgba(110, 110, 110, 0);
-    border-radius: 8px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -125,6 +123,10 @@ body {
     color: rgb(255, 255, 255);
     border: 2px solid var(--accent);
 
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
     padding: 8px 16px;
     border-radius: 4px;
     width: 100%;
@@ -161,11 +163,13 @@ body {
 .infoText {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
+    line-height: 1.35;
 }
 .flavorText {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: rgb(139, 139, 139);
     font-style: italic;
+    font-size: 13px;
 }
 input {
     background-color: rgba(255, 255, 255, 0.05);
@@ -206,13 +210,7 @@ input:focus {
         0 0 8px var(--accent-glow);
     border-color: var(--accent);
 }
-.infoText {
-    line-height: 1.35;
-}
 
-.flavorText {
-    font-size: 13px;
-}
 input {
     background-color: rgba(255, 255, 255, 0.05);
 }
