@@ -26,25 +26,7 @@ function autosave() {
     localStorage.setItem('specialInventory', JSON.stringify(specialInventory));
     console.log('sucessful save');
 }
-function inventorySet(
-    material: string,
-    amount: number,
-    special: boolean
-): void {
-    if (special === false) {
-        if (material in inventory) {
-            inventory[material] += amount;
-        } else {
-            inventory[material] = amount;
-        }
-    } else if (special === true) {
-        if (material in specialInventory) {
-            specialInventory[material] += amount;
-        } else {
-            specialInventory[material] = amount;
-        }
-    }
-}
+
 function inventoryGet(): void {
     const container = document.getElementById('dynamic');
     const specialContainer = document.getElementById('specialDynamic');
@@ -72,6 +54,36 @@ function inventoryGet(): void {
         }
     }
 }
+function inventorySet(
+    material: string,
+    amount: number,
+    special: boolean
+): void {
+    if (special === false) {
+        if (material in inventory) {
+            inventory[material] += amount;
+        } else {
+            inventory[material] = amount;
+        }
+    } else if (special === true) {
+        if (material in specialInventory) {
+            specialInventory[material] += amount;
+        } else {
+            specialInventory[material] = amount;
+        }
+    }
+}
+function inventorySetBulk(
+    counts:Record<string,number>,
+    special: boolean
+): void {
+    const targetInventory = special ? specialInventory : inventory;
+
+    for (const [material, amount] of Object.entries(counts)) {
+        targetInventory[material] = (targetInventory[material] ?? 0) + amount;
+    }
+}
+
 /**
  * Remove items from the inventory. Use inventory[item] -= x instead.
  *
@@ -99,6 +111,9 @@ function inventoryCheck(material: string) {
         return false;
     }
 } //only works on specialInventory
+export function fetchSpecialInventory() {
+    return specialInventory;
+}
 export {
     autosave,
     inventoryGet,
@@ -106,6 +121,7 @@ export {
     inventorySet,
     inventoryGetAmount,
     inventoryCheck,
+    inventorySetBulk,
     inventory,
     specialInventory,
 };

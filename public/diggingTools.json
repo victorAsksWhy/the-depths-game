@@ -1,0 +1,5 @@
+[
+        { "name": "Iron Pickaxe", "type": "pickaxe", "power": 1 },
+    { "name": "Gold Pickaxe", "type": "pickaxe", "power": 2 },
+    { "name": "Comically Large Drill", "type": "drill", "power": 3 }
+]

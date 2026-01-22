@@ -1,7 +1,12 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
-import { saveCrafting, fetchRecipes } from './crafting';
+import { saveCrafting, fetchRecipes, isBlocked } from './crafting';
 import { mine, chanceStringToNumberHelper } from './mining';
-import { getLayerIndexByIdHelper, getLayerObjectByIdHelper, getCurrentDepthHelper,getCurrentLayerHelper } from './mining';
+import {
+    getLayerIndexByIdHelper,
+    getLayerObjectByIdHelper,
+    getCurrentDepthHelper,
+    getCurrentLayerHelper,
+} from './mining';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
@@ -43,7 +48,7 @@ showFlags!.addEventListener('click', () => {
     alert(localStorage.getItem('flags'));
 });
 showCrafted!.addEventListener('click', () => {
-    chanceStringToNumberHelper();
+    alert(localStorage.getItem('craftedItems'))
 });
 maxMaterials!.addEventListener('click', () => {
     for (const material of layer1) {
@@ -61,7 +66,7 @@ const layer1: string[] = [
 ];
 
 function update() {
-    //will not be good //what does delta mean
+    //will not be good //what does delta mean //where tf did delta go //why does it still work
     // update first
     inventoryGet();
     //renderCraftingButtons();
