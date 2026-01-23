@@ -167,7 +167,7 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
 }
 async function fetchRecipes(): Promise<void> {
     try {
-        const resource = await fetch('/recipe.json');
+        const resource = await fetch('/data/recipe.json');
         if (!resource.ok) {
             alert('Critical error: failed to load recipes.');
             throw new Error('Failed to load recipes');

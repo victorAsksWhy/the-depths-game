@@ -1,10 +1,6 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
 import { saveCrafting, fetchRecipes, isBlocked } from './crafting';
 import { mine, chanceStringToNumberHelper } from './mining';
-import './mining';
-import './random';
-import './crafting';
-import './inventoryManager';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;

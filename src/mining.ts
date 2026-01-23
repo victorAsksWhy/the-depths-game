@@ -84,7 +84,7 @@ export function mine() {
 }
 async function fetchDepths(): Promise<void> {
     try {
-        const resource = await fetch('/depthThresholds.json');
+        const resource = await fetch('/data/depthThresholds.json');
         const out = await resource.json();
         for (const o of out) {
             layers.push(o);
@@ -95,7 +95,7 @@ async function fetchDepths(): Promise<void> {
 }
 async function fetchDiggingPower(name): Promise<number> {
     try {
-        const resource = await fetch('/diggingTools.json');
+        const resource = await fetch('/data/diggingTools.json');
         const out = (await resource.json()) as DiggingTool[];
         return out[name].power;
     } catch (e) {
@@ -106,7 +106,7 @@ async function fetchDiggingType(
     name: string
 ): Promise<DiggingToolType | undefined> {
     try {
-        const resource = await fetch('/diggingTools.json');
+        const resource = await fetch('/data/diggingTools.json');
         const out = (await resource.json()) as DiggingTool[];
 
         // Find tool by name
