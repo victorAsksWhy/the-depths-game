@@ -78,12 +78,18 @@ export function mine() {
     console.log(typeof layers)
     console.log(layers[currentLayer]);
     let power = totalPickaxePower;
-    const ore = weightedRandomChoice(
+    try{    
+        const ore = weightedRandomChoice(
         layers[currentLayer].associatedOres,
         layers[currentLayer].associatedChances as number[],
-        power
-    );
-    inventorySetBulk(ore, false);
+        power)
+        inventorySetBulk(ore, false);
+    } catch (error){
+        console.error("CRITICAL ERROR, ABORTING", error);
+        return false;
+    }
+
+
 }
 export async function fetchDepths(): Promise<void> {
     try {
@@ -151,3 +157,8 @@ export function chanceStringToNumberHelper() {
     }
 }
 console.log(`[DBG] loaded script ${import.meta.url}`);
+export async function init(){
+    fetchDepths();
+
+}
+init();

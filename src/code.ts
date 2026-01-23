@@ -7,19 +7,19 @@ import {
     fetchDiggingType,
     fetchDepths,
 } from './mining';
+import './mining'; // need seperate thing bc side effects
 async function init() {
     try {
         await fetchRecipes;
         await fetchDiggingPower;
         await fetchDiggingType;
         await fetchDepths;
+        console.log(`[DBG] loaded everything!`)
     } catch (e) {
         throw new Error('Error in fetching types');
     }
 }
-window.addEventListener("DOMContentLoaded",async ()=>{
-    await init();
-})
+await init();
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
 const FPS_INT = 1000 / FRAME_CAP;
