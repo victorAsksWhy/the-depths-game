@@ -1,7 +1,25 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
 import { saveCrafting, fetchRecipes, isBlocked } from './crafting';
-import { mine, chanceStringToNumberHelper } from './mining';
-await fetchRecipes;
+import {
+    mine,
+    chanceStringToNumberHelper,
+    fetchDiggingPower,
+    fetchDiggingType,
+    fetchDepths,
+} from './mining';
+async function init() {
+    try {
+        await fetchRecipes;
+        await fetchDiggingPower;
+        await fetchDiggingType;
+        await fetchDepths;
+    } catch (e) {
+        throw new Error('Error in fetching types');
+    }
+}
+window.addEventListener("DOMContentLoaded",async ()=>{
+    await init();
+})
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
 const FPS_INT = 1000 / FRAME_CAP;

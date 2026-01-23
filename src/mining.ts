@@ -74,6 +74,9 @@ export async function calculateBurrowingPower() {
     }
 }
 export function mine() {
+    console.log(layers);
+    console.log(typeof layers)
+    console.log(layers[currentLayer]);
     let power = totalPickaxePower;
     const ore = weightedRandomChoice(
         layers[currentLayer].associatedOres,
@@ -82,7 +85,7 @@ export function mine() {
     );
     inventorySetBulk(ore, false);
 }
-async function fetchDepths(): Promise<void> {
+export async function fetchDepths(): Promise<void> {
     try {
         const resource = await fetch('/data/depthThresholds.json');
         const out = await resource.json();
@@ -93,7 +96,7 @@ async function fetchDepths(): Promise<void> {
         console.error(e);
     }
 }
-async function fetchDiggingPower(name): Promise<number> {
+export async function fetchDiggingPower(name): Promise<number> {
     try {
         const resource = await fetch('/data/diggingTools.json');
         const out = (await resource.json()) as DiggingTool[];
@@ -102,7 +105,7 @@ async function fetchDiggingPower(name): Promise<number> {
         console.error(e);
     }
 }
-async function fetchDiggingType(
+export async function fetchDiggingType(
     name: string
 ): Promise<DiggingToolType | undefined> {
     try {
@@ -147,12 +150,4 @@ export function chanceStringToNumberHelper() {
         );
     }
 }
-async function init() {
-    await fetchDepths();
-    chanceStringToNumberHelper();
-    console.log(`[DBG] ran conversion script`);
-}
 console.log(`[DBG] loaded script ${import.meta.url}`);
-window.addEventListener('DOMContentLoaded', async () => {
-    await init();
-});
