@@ -1,12 +1,10 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
 import { saveCrafting, fetchRecipes, isBlocked } from './crafting';
 import { mine, chanceStringToNumberHelper } from './mining';
-import {
-    getLayerIndexByIdHelper,
-    getLayerObjectByIdHelper,
-    getCurrentDepthHelper,
-    getCurrentLayerHelper,
-} from './mining';
+import './mining';
+import './random';
+import './crafting';
+import './inventoryManager';
 await fetchRecipes;
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
@@ -48,7 +46,7 @@ showFlags!.addEventListener('click', () => {
     alert(localStorage.getItem('flags'));
 });
 showCrafted!.addEventListener('click', () => {
-    alert(localStorage.getItem('craftedItems'))
+    alert(localStorage.getItem('craftedItems'));
 });
 maxMaterials!.addEventListener('click', () => {
     for (const material of layer1) {
