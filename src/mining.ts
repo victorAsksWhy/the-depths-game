@@ -51,13 +51,6 @@ export function changeLayer(desiredLayer: Layer): boolean {
         return false;
     }
 }
-function calculateMinePower(): number {
-    let power: number = 1;
-    if (inventoryCheck('Iron Pickaxe')) {
-        power += 1;
-    }
-    return power;
-}
 export async function calculateBurrowingPower() {
     let power: number = 1;
     const gear = Object.keys(fetchSpecialInventory());
@@ -74,22 +67,20 @@ export async function calculateBurrowingPower() {
     }
 }
 export function mine() {
-    console.log(layers);
-    console.log(typeof layers)
-    console.log(layers[currentLayer]);
     let power = totalPickaxePower;
-    try{    
+
+    try {
         const ore = weightedRandomChoice(
-        layers[currentLayer].associatedOres,
-        layers[currentLayer].associatedChances as number[],
-        power)
+            layers[currentLayer].associatedOres,
+            layers[currentLayer].associatedChances as number[],
+            power
+        );
+
         inventorySetBulk(ore, false);
-    } catch (error){
-        console.error("CRITICAL ERROR, ABORTING", error);
+    } catch (error) {
+        console.error('CRITICAL ERROR, ABORTING', error);
         return false;
     }
-
-
 }
 export async function fetchDepths(): Promise<void> {
     try {
@@ -98,6 +89,7 @@ export async function fetchDepths(): Promise<void> {
         for (const o of out) {
             layers.push(o);
         }
+        console.log(`[DBG] ${layers[0].associatedChances}`);
     } catch (e) {
         console.error(e);
     }
@@ -151,14 +143,11 @@ export function chanceStringToNumberHelper() {
                 layers[layer].associatedChances[chance] as string
             );
         }
-        console.log(
-            `[DBG] Chances of ${layers[layer]}: ${layers[layer].associatedChances} which is ${typeof layers[layer].associatedChances}`
-        );
     }
 }
 console.log(`[DBG] loaded script ${import.meta.url}`);
-export async function init(){
-    fetchDepths();
-
+export async function init() {
+    await fetchDepths();
+    chanceStringToNumberHelper();
 }
 init();

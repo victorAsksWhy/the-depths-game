@@ -26,7 +26,7 @@ function weightedRandomChoice(
         }
         result[choices[choiceIndex]] = (result[choices[choiceIndex]] ?? 0) + 1;
     }
-
+    
     return result;
 }
 
