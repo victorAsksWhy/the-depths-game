@@ -4,6 +4,11 @@ import {
     inventory,
     inventorySet,
 } from './inventoryManager';
+import { Howl } from 'howler';
+const craftingSound = new Howl({
+    src: ['public/minesound.wav'],
+    volume: 1.0,
+});
 const craftedOnce = loadCrafting('craftedItems');
 const flags = loadCrafting('flags');
 let recipes: Recipe[] = [];
@@ -112,7 +117,7 @@ function meetsRequirements(recipe: Recipe): boolean {
     return true;
 }
 function craft(recipe: Recipe, count: number, special: boolean): boolean {
-    if (!recipe){
+    if (!recipe) {
         return false;
     }
     if (!meetsRequirements(recipe)) {
@@ -149,6 +154,7 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
             inventorySet(itemName, amount * count, true);
             console.log(`[DBG] tried to set ${itemName}`);
             craftedOnce.add(recipe.id);
+            craftingSound.play();
             renderCraftingButtons();
         }
     }
@@ -157,6 +163,7 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
             console.log(`[DBG] ${amount} of ${itemName}`);
             inventorySet(itemName, amount * count, false);
             console.log(`[DBG] tried to set ${itemName}`);
+            craftingSound.play();
             renderCraftingButtons();
         }
         craftedOnce.add(recipe.id);

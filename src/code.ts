@@ -8,6 +8,38 @@ import {
     fetchDepths,
 } from './mining';
 import './mining'; // need seperate thing bc side effects
+import {Howl} from 'howler'
+const tracks=[
+    '/public/music(1).mp3',
+    '/public/Airport-Lounge.mp3',
+    '/public/Backbay-Lounge.mp3',
+    '/public/Disco-Lounge.mp3',
+    '/public/Late-Night-Radio.mp3'
+    
+]
+let index = 0;
+let current: Howl | null = null;
+
+function playNext() {
+  current?.stop();
+
+  current = new Howl({
+    src: [tracks[index]],
+    volume: 0.4,
+    onend: playNext,
+  });
+
+  current.play();
+
+  index = (index + 1) % tracks.length;
+}
+document.addEventListener(
+  'click',
+  () => {
+    playNext();
+  },
+  { once: true }
+);
 async function init() {
     try {
         await fetchRecipes;

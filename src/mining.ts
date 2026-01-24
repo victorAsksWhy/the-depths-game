@@ -13,6 +13,7 @@ export interface Layer {
     associatedOres: string[];
     associatedChances: string[] | number[]; //later converted to number
 }
+import {Howl,Howler} from 'howler'
 export enum DiggingToolType {
     Pickaxe = 'pickaxe',
     Drill = 'drill',
@@ -27,6 +28,10 @@ export let totalDrillPower: number = 0;
 let layers: Layer[] = [];
 let currentLayer: number = 0;
 let depth: number = 0;
+const mineSound = new Howl({
+    src:['/public/minesound.wav'],
+    volume: 0.05,
+})
 export function increaseDepth(amount: number) {
     // will need to expand on this later
     depth += amount;
@@ -77,6 +82,7 @@ export function mine() {
         );
 
         inventorySetBulk(ore, false);
+        mineSound.play();
     } catch (error) {
         console.error('CRITICAL ERROR, ABORTING', error);
         return false;
