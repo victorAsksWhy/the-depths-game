@@ -1,5 +1,5 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
-import { saveCrafting, fetchRecipes, isBlocked } from './crafting';
+import { saveCrafting, fetchRecipes, isBlocked, renderCraftingButtons } from './crafting';
 import {
     mine,
     chanceStringToNumberHelper,
@@ -85,8 +85,7 @@ clearFlags!.addEventListener('click', () => {
     location.reload();
 });
 clearCrafted!.addEventListener('click', () => {
-    localStorage.setItem('craftedItems', JSON.stringify([]));
-    location.reload();
+    renderCraftingButtons();
 });
 showFlags!.addEventListener('click', () => {
     alert(localStorage.getItem('flags'));

@@ -14,6 +14,7 @@ const flags = loadCrafting('flags');
 let recipes: Recipe[] = [];
 let recipeIDs: Record<string, Recipe> = {};
 const expandedRecipes = new Set<string>();
+const expandedLayers = new Set<string>();
 export interface Recipe {
     id: string;
     humanName: string;
@@ -21,6 +22,7 @@ export interface Recipe {
     outputs: Record<string, number>;
     flavorText: string;
     isSpecial: boolean;
+    associatedLayer: string;
     requires?: {
         items?: Record<string, number>; // these are not consumed.
         crafted?: string[];
@@ -201,97 +203,148 @@ function createButton(recipe: Recipe, count: number, special: boolean) {
 
     return btn;
 }
+function groupRecipesByLayer<T, K extends PropertyKey>(
+    array: T[],
+    keyFn: (item: T) => K
+): T[][] {
+    return Object.values(
+        array.reduce<Record<K, T[]>>(
+            (acc, item) => {
+                const key = keyFn(item);
+                (acc[key] ??= []).push(item);
+                return acc;
+            },
+            {} as Record<K, T[]>
+        )
+    );
+}
 function renderCraftingButtons() {
     const container = document.getElementById('craftingButtons');
-
+    const groupedRecipes: Recipe[][] = groupRecipesByLayer(
+        recipes,
+        (r) => r.associatedLayer
+    );
     if (!container) return;
     container.innerHTML = '';
-    for (const recipe of recipes) {
-        if (!meetsRequirements(recipe) || isBlocked(recipe)) {
-            console.log(
-                `[DBG] ${recipe.id} did not meet requirement or is blocked`
-            );
-            continue;
-        }
-
-        // Create collapsible container
-        const header = document.createElement('div');
-        header.id = 'craftHeader';
-        header.className = 'craft-header';
-        header.textContent = recipe.humanName;
-
-        const collapsible = document.createElement('div');
-        collapsible.className = 'craft-container';
-        collapsible.id = 'craftContainer';
-        const inputInfoHeader = document.createElement('p');
-        inputInfoHeader.innerHTML = 'Inputs:';
-        inputInfoHeader.className = 'infoText';
-        collapsible.appendChild(inputInfoHeader);
-
-        const panel = document.createElement('div');
-        panel.className = 'craft-panel';
-        for (const [inputName, amount] of Object.entries(recipe.inputs)) {
-            const inputInfo = document.createElement('p');
-            inputInfo.innerHTML = `${amount} ${inputName}`;
-            inputInfo.className = 'infoText';
-            collapsible.appendChild(inputInfo);
-        }
-        if (recipe.isSpecial) {
-            collapsible.appendChild(createButton(recipe, 1, true));
-            if (recipe.flavorText) {
-                const flavorText = document.createElement('p');
-                flavorText.className = 'flavorText';
-                flavorText.innerHTML = `\"${recipe.flavorText}\"`;
-                collapsible.appendChild(flavorText);
-            }
-        } else {
-            if (recipe.flavorText) {
-                const flavorText = document.createElement('p');
-                flavorText.className = 'flavorText';
-                flavorText.innerHTML = recipe.flavorText;
-                collapsible.appendChild(flavorText);
-            }
-            const inputForm = document.createElement('input');
-            inputForm.type = 'number';
-            inputForm.min = '0';
-            inputForm.id = `buttonInput-${String(Number(Math.random) * Number(Math.random))}`;
-            inputForm.placeholder = 'How many to craft?';
-            const label = document.createElement('label');
-            label.htmlFor = `${inputForm.id}`;
-            label.innerHTML = `Craft ${recipe.humanName}: `;
-            label.style.fontFamily = 'Arial, Helective, sans-serif';
-            label.style.color = 'white';
-            const button = document.createElement('button');
-            button.className = 'craftingButton';
-            button.innerHTML = 'Craft';
-            button.addEventListener('click', (e) => {
-                craft(
-                    recipe,
-                    Number(inputForm.value),
-                    Boolean(button.dataset.special)
-                );
-            });
-            collapsible.append(label);
-            collapsible.append(inputForm);
-            collapsible.append(button);
-        }
-        if (expandedRecipes.has(recipe.id)) {
-            collapsible.classList.toggle('show');
-        }
-        // Toggle expand/collapse on click
-        header.addEventListener('click', () => {
-            const status = collapsible.classList.toggle('show');
+    for (const group of groupedRecipes) {
+        const layerheader = document.createElement('div');
+        layerheader.id = 'layerHeader';
+        layerheader.className = 'layer-header';
+        layerheader.textContent = `Layer ${group[0].associatedLayer}`;
+        const layerContainer = document.createElement('div');
+        layerContainer.className = 'craft-container';
+        layerContainer.id = 'layerContainer';
+        const layerpanel = document.createElement('div');
+        layerpanel.className = 'layer-panel';
+        layerpanel.id = 'layerPanel';
+        const layercollapsible = document.createElement('div');
+        layercollapsible.className = 'craft-container';
+        layercollapsible.id = 'craftContainer';
+        layerpanel.appendChild(layerheader);
+        layerheader.addEventListener('click', (e) => {
+            const status = layerContainer.classList.toggle('show');
             if (status) {
-                expandedRecipes.add(recipe.id);
+                expandedLayers.add(group[0].associatedLayer);
             } else {
-                expandedRecipes.delete(recipe.id);
+                expandedLayers.delete(group[0].associatedLayer);
             }
         });
+        if(expandedLayers.has(group[0].associatedLayer)){
+            layerContainer.classList.toggle('show')
+        }
+        for (const recipe of group) {
+            console.log(recipe);
+            if (!meetsRequirements(recipe) || isBlocked(recipe)) {
+                console.log(
+                    `[DBG] ${recipe.id} did not meet requirement or is blocked`
+                );
+                continue;
+            }
+
+            const header = document.createElement('div');
+            header.id = 'craftHeader';
+            header.className = 'craft-header';
+            header.textContent = recipe.humanName;
+            // Create collapsible container
+            const collapsible = document.createElement('div');
+            collapsible.className = 'craft-container';
+            collapsible.id = 'craftContainer';
+
+            const inputInfoHeader = document.createElement('p');
+            inputInfoHeader.innerHTML = 'Inputs:';
+            inputInfoHeader.className = 'infoText';
+            collapsible.appendChild(inputInfoHeader);
+
+            const panel = document.createElement('div');
+            panel.className = 'craft-panel';
+            for (const [inputName, amount] of Object.entries(recipe.inputs)) {
+                const inputInfo = document.createElement('p');
+                inputInfo.innerHTML = `${amount} ${inputName}`;
+                inputInfo.className = 'infoText';
+                collapsible.appendChild(inputInfo);
+            }
+            if (recipe.isSpecial) {
+                collapsible.appendChild(createButton(recipe, 1, true));
+                if (recipe.flavorText) {
+                    const flavorText = document.createElement('p');
+                    flavorText.className = 'flavorText';
+                    flavorText.innerHTML = `\"${recipe.flavorText}\"`;
+                    collapsible.appendChild(flavorText);
+                }
+            } else {
+                if (recipe.flavorText) {
+                    const flavorText = document.createElement('p');
+                    flavorText.className = 'flavorText';
+                    flavorText.innerHTML = recipe.flavorText;
+                    collapsible.appendChild(flavorText);
+                }
+                const inputForm = document.createElement('input');
+                inputForm.type = 'number';
+                inputForm.min = '0';
+                inputForm.id = `buttonInput-${String(Number(Math.random) * Number(Math.random))}`;
+                inputForm.placeholder = 'How many to craft?';
+                const label = document.createElement('label');
+                label.htmlFor = `${inputForm.id}`;
+                label.innerHTML = `Craft ${recipe.humanName}: `;
+                label.style.fontFamily = 'Arial, Helective, sans-serif';
+                label.style.color = 'white';
+                const button = document.createElement('button');
+                button.className = 'craftingButton';
+                button.innerHTML = 'Craft';
+                button.addEventListener('click', (e) => {
+                    craft(
+                        recipe,
+                        Number(inputForm.value),
+                        Boolean(button.dataset.special)
+                    );
+                });
+                collapsible.append(label);
+                collapsible.append(inputForm);
+                collapsible.append(button);
+            }
+            if (expandedRecipes.has(recipe.id)) {
+                collapsible.classList.toggle('show');
+            }
+            // Toggle expand/collapse on click
+            header.addEventListener('click', (e) => {
+                const status = collapsible.classList.toggle('show');
+                if (status) {
+                    expandedRecipes.add(recipe.id);
+                } else {
+                    expandedRecipes.delete(recipe.id);
+                }
+            });
+
+            panel.appendChild(header);
+            panel.appendChild(collapsible);
+            layerContainer.appendChild(panel);
+            layerpanel.appendChild(layerContainer);
+            //layerpanel.appendChild(layerContainer);
+        }
+
+        container.appendChild(layerpanel);
 
         // Append header + collapsible to container
-        panel.appendChild(header);
-        panel.appendChild(collapsible);
-        container.appendChild(panel);
     }
 }
 const container = document.getElementById('craftingButtons');
@@ -327,7 +380,6 @@ container?.addEventListener('click', (event) => {
 await fetchRecipes();
 buildRecipeMap();
 renderCraftingButtons();
-
 export {
     craftedOnce,
     flags,
