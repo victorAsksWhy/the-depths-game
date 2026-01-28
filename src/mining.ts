@@ -13,6 +13,8 @@ export interface Layer {
     associatedOres: string[];
     associatedChances: string[] | number[]; //later converted to number
 }
+import { Howl, Howler } from 'howler';
+const out = await (await fetch('/data/diggingTools.json')).json();
 export enum DiggingToolType {
     Pickaxe = 'pickaxe',
     Drill = 'drill',
@@ -27,6 +29,10 @@ export let totalDrillPower: number = 0;
 let layers: Layer[] = [];
 let currentLayer: number = 0;
 let depth: number = 0;
+const mineSound = new Howl({
+    src: ['/public/minesound.wav'],
+    volume: 0.05,
+});
 export function increaseDepth(amount: number) {
     // will need to expand on this later
     depth += amount;
@@ -36,6 +42,12 @@ export function getLayerObjectByIdHelper(id: string): Layer | undefined {
 }
 export function getLayerIndexByIdHelper(id: string): number | undefined {
     return layers.findIndex((layer) => layer.id === id);
+}
+export async function getToolIndexByNameHelper(
+    name: string
+): Promise<number> | undefined {
+    const output = out as DiggingTool[];
+    return output.findIndex((tool) => tool.name === name);
 }
 export function getCurrentDepthHelper(): number {
     return depth;
@@ -51,40 +63,46 @@ export function changeLayer(desiredLayer: Layer): boolean {
         return false;
     }
 }
-function calculateMinePower(): number {
-    let power: number = 1;
-    if (inventoryCheck('Iron Pickaxe')) {
-        power += 1;
-    }
-    return power;
-}
 export async function calculateBurrowingPower() {
     let power: number = 1;
     const gear = Object.keys(fetchSpecialInventory());
-    for (const item in gear) {
+    for (const item of gear) {
         let type = await fetchDiggingType(item);
+
         if (type === DiggingToolType.Drill) {
-            totalDrillPower += await fetchDiggingPower(item);
-            console.log(`[DBG] total drilling power: ${totalDrillPower}`);
+            `     _____ 
+                 _|___ / 
+                (_) |_ \ 
+                 _ ___) |
+                (_)____/  (fix this |
+                                    v reason: sets instead of like totaling`;
+            totalDrillPower = Number(await fetchDiggingPower(item));
         } else if (type === DiggingToolType.Pickaxe) {
-            totalPickaxePower += await fetchDiggingPower(item[0]);
-            console.log(`[DBG] total pickaxe power: ${totalPickaxePower}`);
+            totalPickaxePower += (await fetchDiggingPower(item[0])) as number;
         }
-        power += await fetchDiggingPower(item);
+        power += (await fetchDiggingPower(item)) as number;
     }
 }
 export function mine() {
     let power = totalPickaxePower;
-    const ore = weightedRandomChoice(
-        layers[currentLayer].associatedOres,
-        layers[currentLayer].associatedChances as number[],
-        power
-    );
-    inventorySetBulk(ore, false);
-}
-async function fetchDepths(): Promise<void> {
+
     try {
-        const resource = await fetch('/depthThresholds.json');
+        const ore = weightedRandomChoice(
+            layers[currentLayer].associatedOres,
+            layers[currentLayer].associatedChances as number[],
+            power
+        );
+
+        inventorySetBulk(ore, false);
+        mineSound.play();
+    } catch (error) {
+        console.error('CRITICAL ERROR, ABORTING', error);
+        return false;
+    }
+}
+export async function fetchDepths(): Promise<void> {
+    try {
+        const resource = await fetch('/data/depthThresholds.json');
         const out = await resource.json();
         for (const o of out) {
             layers.push(o);
@@ -93,34 +111,31 @@ async function fetchDepths(): Promise<void> {
         console.error(e);
     }
 }
-async function fetchDiggingPower(name): Promise<number> {
+export async function fetchDiggingPower(name): Promise<number | boolean> {
     try {
-        const resource = await fetch('/diggingTools.json');
-        const out = (await resource.json()) as DiggingTool[];
-        return out[name].power;
+        const index = await getToolIndexByNameHelper(name);
+        if (index === -1) {
+            return false;
+        }
+        return out[index].power;
     } catch (e) {
         console.error(e);
     }
 }
-async function fetchDiggingType(
+export async function fetchDiggingType(
     name: string
 ): Promise<DiggingToolType | undefined> {
     try {
-        const resource = await fetch('/diggingTools.json');
-        const out = (await resource.json()) as DiggingTool[];
-
         // Find tool by name
         const tool = out.find((t) => t.name === name);
 
         if (!tool) {
-            console.error(`Tool not found: ${name}`);
             return undefined;
         }
         if (!Object.values(DiggingToolType).includes(tool.type)) {
             console.error(`Invalid tool type in JSON: ${tool.type}`);
             return undefined;
         }
-
         return tool.type as DiggingToolType;
     } catch (e) {
         console.error(e);
@@ -142,17 +157,24 @@ export function chanceStringToNumberHelper() {
                 layers[layer].associatedChances[chance] as string
             );
         }
-        console.log(
-            `[DBG] Chances of ${layers[layer]}: ${layers[layer].associatedChances} which is ${typeof layers[layer].associatedChances}`
-        );
     }
 }
-async function init() {
-    await fetchDepths();
-    chanceStringToNumberHelper();
-    console.log(`[DBG] ran conversion script`);
+export async function updateDepth() {
+    await calculateBurrowingPower();
+    const infoBox = document.getElementById('depthInfoBox');
+    infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer is at ${layers[currentLayer].minDepth} meters.`;
+}
+export function dig() {
+    //different from mining
+    if (totalDrillPower === 0) {
+        return false;
+    }
+    depth += totalDrillPower;
 }
 console.log(`[DBG] loaded script ${import.meta.url}`);
-window.addEventListener('DOMContentLoaded', async () => {
-    await init();
-});
+export async function init() {
+    await fetchDepths();
+    chanceStringToNumberHelper();
+    await updateDepth();
+}
+init();

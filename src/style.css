@@ -54,6 +54,7 @@ body {
     text-align: center;
 }
 #log,
+#depthLog,
 #logSpecial {
     position: relative;
     height: 50%;
@@ -252,11 +253,11 @@ input:focus {
     box-shadow: 0 0 6px var(--accent-glow);
 }
 #log,
+#depthLog,
 #logSpecial {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     overflow: auto;
-    height: 390px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
@@ -264,6 +265,7 @@ input:focus {
 #mineButton,
 #log,
 #logSpecial,
+#depthLog,
 #box,
 .layer-panel,
 .craftingButton {
@@ -289,6 +291,7 @@ input:focus {
 #log,
 #logSpecial,
 #box,
+#depthLog,
 .layer-panel,
 .craft-panel {
     background: linear-gradient(

@@ -1,18 +1,68 @@
 import { inventoryGet, inventorySet, autosave } from './inventoryManager';
 import { saveCrafting, fetchRecipes, isBlocked, renderCraftingButtons } from './crafting';
-import { mine, chanceStringToNumberHelper } from './mining';
 import {
-    getLayerIndexByIdHelper,
-    getLayerObjectByIdHelper,
-    getCurrentDepthHelper,
-    getCurrentLayerHelper,
+    mine,
+    chanceStringToNumberHelper,
+    fetchDiggingPower,
+    fetchDiggingType,
+    fetchDepths,
+    dig,
+    updateDepth,
+    calculateBurrowingPower
 } from './mining';
-await fetchRecipes;
+import './mining'; // need seperate thing bc side effects
+import {Howl} from 'howler'
+const tracks=[
+    '/public/music(1).mp3',
+    '/public/Airport-Lounge.mp3',
+    '/public/Backbay-Lounge.mp3',
+    '/public/Disco-Lounge.mp3',
+    '/public/Late-Night-Radio.mp3'
+    
+]
+let index = 0;
+let current: Howl | null = null;
+
+function playNext() {
+  current?.stop();
+
+  current = new Howl({
+    src: [tracks[index]],
+    volume: 0.4,
+    onend: playNext,
+  });
+
+  current.play();
+
+  index = (index + 1) % tracks.length;
+}
+let digPending:boolean=true
+document.addEventListener(
+  'click',
+  () => {
+    playNext();
+  },
+  { once: true }
+);
+async function init() {
+    try {
+        await fetchRecipes;
+        await fetchDiggingPower;
+        await fetchDiggingType;
+        await fetchDepths;
+        console.log(`[DBG] loaded everything!`)
+    } catch (e) {
+        throw new Error('Error in fetching types');
+    }
+}
+await init();
 //import {Inventory} from './inventoryManager.ts'
 const FRAME_CAP = 30;
 const FPS_INT = 1000 / FRAME_CAP;
 const SAVE_INT = 15 * 1000;
+const DIG_INT = 1 * 1000;
 let timeSinceSave: number = 0;
+let timeSinceDig: number =0;
 let lastTime: number = performance.now();
 function testFunction(): void {
     alert('something trigged testfunction!');
@@ -41,13 +91,14 @@ clearFlags!.addEventListener('click', () => {
     location.reload();
 });
 clearCrafted!.addEventListener('click', () => {
-    renderCraftingButtons();
+    calculateBurrowingPower();
+    updateDepth();
 });
 showFlags!.addEventListener('click', () => {
     alert(localStorage.getItem('flags'));
 });
 showCrafted!.addEventListener('click', () => {
-    alert(localStorage.getItem('craftedItems'))
+    alert(localStorage.getItem('craftedItems'));
 });
 maxMaterials!.addEventListener('click', () => {
     for (const material of layer1) {
@@ -74,6 +125,11 @@ function update() {
         mine();
         minePending = false;
     }
+    if (digPending){
+        dig();
+        console.log(`[dbg] called dig`)
+        digPending=false;
+    }
 }
 function loop(cTime: number) {
     requestAnimationFrame(loop);
@@ -83,11 +139,17 @@ function loop(cTime: number) {
     }
     if (elapsed > FPS_INT) {
         update();
+                    updateDepth();
         lastTime = cTime - (elapsed % FPS_INT);
         if (cTime - timeSinceSave >= SAVE_INT) {
+
             autosave();
             saveCrafting();
             timeSinceSave = cTime;
+        }
+        if (cTime-timeSinceDig >= DIG_INT){
+            digPending=true;
+            timeSinceDig=cTime;
         }
     }
 }
