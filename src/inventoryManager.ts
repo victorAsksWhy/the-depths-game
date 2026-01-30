@@ -84,14 +84,6 @@ function inventorySetBulk(
     }
 }
 
-/**
- * Remove items from the inventory. Use inventory[item] -= x instead.
- *
- * @param material material to remove
- * @param amount amount to remove
- * @param callback function to call on sucess
- * @returns
- */
 function inventoryRemove(material: string, amount: number): boolean {
     const amountOfItem = inventory[material] ?? 0;
     if (inventory[material] < amount) {

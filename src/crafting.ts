@@ -4,10 +4,7 @@ import {
     inventory,
     inventorySet,
 } from './inventoryManager';
-<<<<<<< HEAD
-=======
 import { calculateBurrowingPower } from './mining';
->>>>>>> dev
 import { Howl } from 'howler';
 const craftingSound = new Howl({
     src: ['public/minesound.wav'],
