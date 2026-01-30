@@ -4,6 +4,10 @@ import {
     inventory,
     inventorySet,
 } from './inventoryManager';
+<<<<<<< HEAD
+=======
+import { calculateBurrowingPower } from './mining';
+>>>>>>> dev
 import { Howl } from 'howler';
 const craftingSound = new Howl({
     src: ['public/minesound.wav'],
@@ -118,7 +122,7 @@ function meetsRequirements(recipe: Recipe): boolean {
     }
     return true;
 }
-function craft(recipe: Recipe, count: number, special: boolean): boolean {
+async function craft(recipe: Recipe, count: number, special: boolean): Promise<boolean> {
     if (!recipe) {
         return false;
     }
@@ -158,6 +162,7 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
             craftedOnce.add(recipe.id);
             craftingSound.play();
             renderCraftingButtons();
+            await calculateBurrowingPower();
         }
     }
     if (!special) {
@@ -167,6 +172,7 @@ function craft(recipe: Recipe, count: number, special: boolean): boolean {
             console.log(`[DBG] tried to set ${itemName}`);
             craftingSound.play();
             renderCraftingButtons();
+            await calculateBurrowingPower();
         }
         craftedOnce.add(recipe.id);
 
@@ -249,8 +255,8 @@ function renderCraftingButtons() {
                 expandedLayers.delete(group[0].associatedLayer);
             }
         });
-        if(expandedLayers.has(group[0].associatedLayer)){
-            layerContainer.classList.toggle('show')
+        if (expandedLayers.has(group[0].associatedLayer)) {
+            layerContainer.classList.toggle('show');
         }
         for (const recipe of group) {
             console.log(recipe);
@@ -311,8 +317,8 @@ function renderCraftingButtons() {
                 const button = document.createElement('button');
                 button.className = 'craftingButton';
                 button.innerHTML = 'Craft';
-                button.addEventListener('click', (e) => {
-                    craft(
+                button.addEventListener('click', async(e) => {
+                    await craft(
                         recipe,
                         Number(inputForm.value),
                         Boolean(button.dataset.special)
@@ -348,7 +354,7 @@ function renderCraftingButtons() {
     }
 }
 const container = document.getElementById('craftingButtons');
-container?.addEventListener('click', (event) => {
+container?.addEventListener('click', async(event) => {
     const target = event.target as HTMLButtonElement;
     if (target.tagName !== 'BUTTON') {
         return;
@@ -359,7 +365,7 @@ container?.addEventListener('click', (event) => {
         if (!recipe) {
             return;
         }
-        craft(
+        await craft(
             recipe,
             Number(target.dataset.count),
             Boolean(target.dataset.special)
@@ -371,7 +377,7 @@ container?.addEventListener('click', (event) => {
         if (!recipe) {
             return;
         }
-        craft(recipe, 1, Boolean(target.dataset.special));
+        await craft(recipe, 1, Boolean(target.dataset.special));
         console.log(`[DBG] tried to craft ${recipe.id}`);
     }
     console.log(`[DBG] Buttons rerendered`);
