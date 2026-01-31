@@ -160,10 +160,23 @@ export function chanceStringToNumberHelper() {
         }
     }
 }
-export async function updateDepth() {
+async function updateDepthStatus() {
     await calculateBurrowingPower();
     const infoBox = document.getElementById('depthInfoBox');
     infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer is at ${layers[currentLayer + 1].minDepth} meters.`;
+}
+function updateDiggingStats(){
+    const infoBox=document.getElementById('mineButton');
+    if (totalPickaxePower === 1){
+        infoBox.innerHTML=`Mine for materials`
+    }
+    else{
+        infoBox.innerHTML=`Mine for ${totalPickaxePower} materials`
+    }
+}
+export async function updateDepth(){
+    await updateDepthStatus();
+    updateDiggingStats();
 }
 export function dig() {
     //different from mining
