@@ -75,7 +75,7 @@ export async function calculateBurrowingPower() {
             accumulatedDrillPower += Number(await fetchDiggingPower(item));
         } else if (type === DiggingToolType.Pickaxe) {
             accumulatedPickaxePower += (await fetchDiggingPower(
-                item[0]
+                item
             )) as number;
         }
         power += (await fetchDiggingPower(item)) as number;
@@ -163,7 +163,7 @@ export function chanceStringToNumberHelper() {
 export async function updateDepth() {
     await calculateBurrowingPower();
     const infoBox = document.getElementById('depthInfoBox');
-    infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer is at ${layers[currentLayer].minDepth} meters.`;
+    infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer is at ${layers[currentLayer + 1].minDepth} meters.`;
 }
 export function dig() {
     //different from mining
