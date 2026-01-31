@@ -65,23 +65,23 @@ export function changeLayer(desiredLayer: Layer): boolean {
 }
 export async function calculateBurrowingPower() {
     let power: number = 1;
+    let accumulatedDrillPower = 0;
+    let accumulatedPickaxePower = 0;
     const gear = Object.keys(fetchSpecialInventory());
     for (const item of gear) {
         let type = await fetchDiggingType(item);
 
         if (type === DiggingToolType.Drill) {
-            `     _____ 
-                 _|___ / 
-                (_) |_ \ 
-                 _ ___) |
-                (_)____/  (fix this |
-                                    v reason: sets instead of like totaling`;
-            totalDrillPower = Number(await fetchDiggingPower(item));
+            accumulatedDrillPower += Number(await fetchDiggingPower(item));
         } else if (type === DiggingToolType.Pickaxe) {
-            totalPickaxePower += (await fetchDiggingPower(item[0])) as number;
+            accumulatedPickaxePower += (await fetchDiggingPower(
+                item[0]
+            )) as number;
         }
         power += (await fetchDiggingPower(item)) as number;
     }
+    totalDrillPower = accumulatedDrillPower;
+    totalPickaxePower = accumulatedPickaxePower;
 }
 export function mine() {
     let power = totalPickaxePower;
