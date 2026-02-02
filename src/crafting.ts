@@ -238,7 +238,7 @@ function renderCraftingButtons() {
         layerContainer.className = 'craft-container';
         layerContainer.id = 'layerContainer';
         const layerpanel = document.createElement('div');
-        layerpanel.className = 'layer-panel';
+        layerpanel.className = 'layer-panel panel';
         layerpanel.id = 'layerPanel';
         const layercollapsible = document.createElement('div');
         layercollapsible.className = 'craft-container';
@@ -279,7 +279,7 @@ function renderCraftingButtons() {
             collapsible.appendChild(inputInfoHeader);
 
             const panel = document.createElement('div');
-            panel.className = 'craft-panel';
+            panel.className = 'craft-panel panel';
             for (const [inputName, amount] of Object.entries(recipe.inputs)) {
                 const inputInfo = document.createElement('p');
                 inputInfo.innerHTML = `${amount} ${inputName}`;
