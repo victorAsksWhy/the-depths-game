@@ -55,6 +55,7 @@ body {
 }
 #log,
 #depthLog,
+#depthInfo,
 #logSpecial {
     position: relative;
     height: 50%;
@@ -173,7 +174,7 @@ body {
         inset 0 2px 6px rgba(0, 0, 0, 0.4),
         0 0 8px var(--accent-glow);
 }
-.craft-panel{
+.craft-panel {
     min-width: none;
     overflow: hidden;
     border-radius: 8px;
@@ -252,16 +253,16 @@ input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
 }
-#log,
-#depthLog,
-#logSpecial {
+.item {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
     overflow: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
-
+.spanWithPadding {
+    margin: 16px;
+}
 #mineButton,
 #log,
 #logSpecial,
@@ -292,6 +293,7 @@ input:focus {
 #logSpecial,
 #box,
 #depthLog,
+#depthInfo,
 .layer-panel,
 .craft-panel {
     background: linear-gradient(
@@ -302,4 +304,21 @@ input:focus {
     );
     border: 2px solid var(--accent);
     border-radius: 8px;
+}
+.buttonTextSmall {
+    font-size: 14px;
+}
+p.noMargin {
+    margin: 0 0;
+}
+
+table,
+th,
+td {
+    border: 2px solid var(--accent);
+}
+table{
+    border-collapse: collapse;
+    width:100%;
+    border-radius: 4px;
 }

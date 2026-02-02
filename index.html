@@ -6,11 +6,18 @@
 <body>
     <div id="container" class="container">
         <div id="leftSideElements" class="item">
-            <button id="mineButton">Mine for materials</button>
+            <button id="mineButton">
+                <span id="mineButtonText">Mine for materials</span><br />
+            </button>
             <br />
             <div id="depthLog" class="item">
-                <h2 id="depthIndicator" class="logHeader">depth</h2>
+                <h2 id="depthIndicator" class="logHeader">Depth</h2>
                 <p id="depthInfoBox"></p>
+            </div>
+            <div id="depthInfo" class="item collapsibleInventoryMenuItem">
+                <h2>Layer info</h2>
+                <p id="mineButtonLayerText">you</p>
+                <div id="depthOres"></div>
             </div>
             <div id="log" class="item">
                 <h2 id="inventoryHead">Inventory</h2>

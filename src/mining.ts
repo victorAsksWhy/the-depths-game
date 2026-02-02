@@ -33,10 +33,7 @@ const mineSound = new Howl({
     src: ['/public/minesound.wav'],
     volume: 0.05,
 });
-export function increaseDepth(amount: number) {
-    // will need to expand on this later
-    depth += amount;
-}
+let layerKeepChancesAsString: string[][] = [];
 export function getLayerObjectByIdHelper(id: string): Layer | undefined {
     return layers.find((layer) => layer.id === id);
 }
@@ -62,26 +59,27 @@ export function changeLayer(desiredLayer: Layer): boolean {
     } else {
         return false;
     }
+    updateOresInLayerDisplay(); //can be called only when switiching layers. Does not change otherwise (hopefully).
 }
 export async function calculateBurrowingPower() {
     let power: number = 1;
+    let accumulatedPickaxePower = 0;
+    let accumulatedDrillPower = 0;
     const gear = Object.keys(fetchSpecialInventory());
     for (const item of gear) {
         let type = await fetchDiggingType(item);
 
         if (type === DiggingToolType.Drill) {
-            `     _____ 
-                 _|___ / 
-                (_) |_ \ 
-                 _ ___) |
-                (_)____/  (fix this |
-                                    v reason: sets instead of like totaling`;
-            totalDrillPower = Number(await fetchDiggingPower(item));
+            accumulatedDrillPower += Number(await fetchDiggingPower(item));
         } else if (type === DiggingToolType.Pickaxe) {
-            totalPickaxePower += (await fetchDiggingPower(item[0])) as number;
+            accumulatedPickaxePower += (await fetchDiggingPower(
+                item
+            )) as number;
         }
         power += (await fetchDiggingPower(item)) as number;
     }
+    totalDrillPower = accumulatedDrillPower;
+    totalPickaxePower = accumulatedPickaxePower;
 }
 export function mine() {
     let power = totalPickaxePower;
@@ -152,6 +150,9 @@ function parseChances(chance: string): number {
 }
 export function chanceStringToNumberHelper() {
     for (const layer in layers) {
+        layerKeepChancesAsString.push(
+            layers[layer].associatedChances as string[]
+        );
         for (const chance in layers[layer].associatedChances) {
             layers[layer].associatedChances[chance] = parseChances(
                 layers[layer].associatedChances[chance] as string
@@ -160,9 +161,44 @@ export function chanceStringToNumberHelper() {
     }
 }
 export async function updateDepth() {
+    updateDiggingStats();
     await calculateBurrowingPower();
     const infoBox = document.getElementById('depthInfoBox');
-    infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer is at ${layers[currentLayer].minDepth} meters.`;
+    infoBox.innerHTML = `You are ${depth} meters deep. You are getting depth at a rate of ${totalDrillPower} m/s, and the next layer, ${layers[currentLayer + 1].humanName}, is at ${layers[currentLayer + 1].minDepth} meters.`;
+}
+function updateDiggingStats() {
+    console.log(totalPickaxePower);
+    const infoBox = document.getElementById('mineButtonText');
+    const layerInfoBox = document.getElementById('mineButtonLayerText');
+    if (totalPickaxePower === 1) {
+        infoBox.innerHTML = `Mine for materials`;
+    } else {
+        infoBox.innerHTML = `Mine for ${totalPickaxePower} materials`;
+    }
+    layerInfoBox.innerHTML = `You are on the layer ${layers[currentLayer].humanName}. This layer has the following ores:`;
+}
+export function updateOresInLayerDisplay() {
+    const depthInfoContainer = document.getElementById('depthInfo');
+    const tableContainerContainer = document.getElementById('depthOres');
+    tableContainerContainer.innerHTML = '';
+    const tableContainer = document.createElement('table');
+    const tableHeaderOre = document.createElement('th');
+    const tableHeaderChance = document.createElement('th');
+    tableHeaderOre.innerHTML = 'Ore';
+    tableHeaderChance.innerHTML = 'Chance';
+    const tableRowHeaders = document.createElement('tr');
+    tableRowHeaders.appendChild(tableHeaderOre);
+    tableRowHeaders.appendChild(tableHeaderChance);
+
+    tableContainer.appendChild(tableRowHeaders);
+    tableContainerContainer.appendChild(tableContainer);
+    for (const ore of layers[currentLayer].associatedOres) {
+        const newRow = document.createElement('tr');
+        const oreNameIndicator = document.createElement('td');
+        oreNameIndicator.innerHTML = ore;
+        newRow.appendChild(oreNameIndicator);
+        tableContainer.appendChild(newRow);
+    }
 }
 export function dig() {
     //different from mining
@@ -176,5 +212,7 @@ export async function init() {
     await fetchDepths();
     chanceStringToNumberHelper();
     await updateDepth();
+    updateOresInLayerDisplay();
+    updateDiggingStats();
 }
 init();

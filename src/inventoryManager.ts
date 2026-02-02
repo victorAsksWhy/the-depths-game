@@ -40,6 +40,7 @@ function inventoryGet(): void {
             pElement.id = 'inventoryThingy';
             if (value === 0) {
                 pElement.innerHTML = '';
+                container.removeChild(pElement);
                 continue;
             }
             container!.appendChild(pElement);
@@ -74,7 +75,7 @@ function inventorySet(
     }
 }
 function inventorySetBulk(
-    counts:Record<string,number>,
+    counts: Record<string, number>,
     special: boolean
 ): void {
     const targetInventory = special ? specialInventory : inventory;
