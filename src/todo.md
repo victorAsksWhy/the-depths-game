@@ -8,7 +8,6 @@
 ## Fixes
 
 - Fix depth not saving
-- Make recipes horizantal
 
 ## Refactor
 

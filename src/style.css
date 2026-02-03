@@ -1,12 +1,10 @@
 #mineButton {
     height: 80px;
     color: white;
-    background: linear-gradient(
-        135deg,
-        rgb(30, 40, 60) 0%,
-        rgb(50, 60, 90) 50%,
-        rgb(30, 40, 60) 100%
-    );
+    background: linear-gradient(135deg,
+            rgb(30, 40, 60) 0%,
+            rgb(50, 60, 90) 50%,
+            rgb(30, 40, 60) 100%);
     font-size: 20px;
     padding: 6px 8px;
     border-radius: 8px;
@@ -15,38 +13,40 @@
     border: 2px solid var(--accent);
     transition: all 0.2s ease;
 }
+
 #mineButton:hover {
-    background: linear-gradient(
-        135deg,
-        rgb(50, 60, 90) 0%,
-        rgb(70, 90, 130) 50%,
-        rgb(50, 60, 90) 100%
-    );
+    background: linear-gradient(135deg,
+            rgb(50, 60, 90) 0%,
+            rgb(70, 90, 130) 50%,
+            rgb(50, 60, 90) 100%);
     box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.45),
         0 0 12px var(--accent-glow);
 }
+
 #mineButton:active {
     box-shadow:
         inset 0 2px 6px rgba(0, 0, 0, 0.4),
         0 0 8px var(--accent-glow);
 }
+
 .background {
-    background: linear-gradient(
-        180deg,
-        rgb(10, 14, 22) 0%,
-        rgb(20, 25, 35) 50%,
-        rgb(12, 16, 24) 100%
-    );
+    background: linear-gradient(180deg,
+            rgb(10, 14, 22) 0%,
+            rgb(20, 25, 35) 50%,
+            rgb(12, 16, 24) 100%);
     color: white;
 }
+
 .default-font {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 #inventoryHead {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
+
 .infoBox {
     position: relative;
     height: 50%;
@@ -56,20 +56,20 @@
     margin: 4px;
     overflow-y: auto;
 }
+
 #container {
     display: flex;
     gap: 20px;
 }
+
 .craft-header {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     font-weight: bold;
     margin: 0 0;
-    background: linear-gradient(
-        90deg,
-        rgb(30, 40, 60) 0%,
-        rgb(60, 80, 110) 100%
-    );
+    background: linear-gradient(90deg,
+            rgb(30, 40, 60) 0%,
+            rgb(60, 80, 110) 100%);
     color: #fff;
     padding: 6px 8px;
     border-radius: 8px;
@@ -78,17 +78,16 @@
         0 0 8px var(--accent-glow);
     margin-bottom: 4px;
 }
+
 .layer-header {
     margin: 4px;
     margin-bottom: 6px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     font-weight: bold;
-    background: linear-gradient(
-        90deg,
-        rgb(30, 40, 60) 0%,
-        rgb(60, 80, 110) 100%
-    );
+    background: linear-gradient(90deg,
+            rgb(30, 40, 60) 0%,
+            rgb(60, 80, 110) 100%);
     color: #fff;
     padding: 8px;
     border-radius: 8px;
@@ -107,29 +106,45 @@
     margin-right: 4px;
     border-radius: 8px;
 }
+
 .craft-container.show,
 #layerContainer.show {
-    max-height: 1000px; /* large enough for content */
+    max-height: 5000px;
     transition: max-height 0.3s ease;
 }
+
+/* Specifically target the container that holds the craft-panels */
+.layer-panel>.craft-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    padding-top:8px;
+    transition: max-height 0.3s ease;
+}
+
+.layer-panel>.craft-container.show {
+    padding-top:8px
+}
+
 
 .craft-container button {
     display: block;
     margin: 4px 0;
 }
+
 #craftingButtons {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 12px;
 }
+
 .craftingButton {
-    background: linear-gradient(
-        135deg,
-        rgb(40, 50, 70) 0%,
-        rgb(60, 80, 120) 50%,
-        rgb(40, 50, 70) 100%
-    );
+    background: linear-gradient(135deg,
+            rgb(40, 50, 70) 0%,
+            rgb(60, 80, 120) 50%,
+            rgb(40, 50, 70) 100%);
     box-shadow:
         0 2px 6px rgba(0, 0, 0, 0.35),
         0 0 8px var(--accent-glow);
@@ -149,22 +164,23 @@
     cursor: pointer;
     margin-bottom: 5px;
 }
+
 .craftingButton:hover {
-    background: linear-gradient(
-        135deg,
-        rgb(60, 80, 120) 0%,
-        rgb(90, 120, 180) 50%,
-        rgb(60, 80, 120) 100%
-    );
+    background: linear-gradient(135deg,
+            rgb(60, 80, 120) 0%,
+            rgb(90, 120, 180) 50%,
+            rgb(60, 80, 120) 100%);
     box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.45),
         0 0 12px var(--accent-glow);
 }
+
 .craftingButton:active {
     box-shadow:
         inset 0 2px 6px rgba(0, 0, 0, 0.4),
         0 0 8px var(--accent-glow);
 }
+
 .craft-panel {
     min-width: none;
     overflow: hidden;
@@ -173,27 +189,33 @@
     width: 220px;
     box-sizing: border-box;
 }
+
 .layer-panel {
     margin: 4px;
-    width: 100%;
+    width: 1381px;
+    /* Match #box width */
     box-sizing: border-box;
 }
+
 .panel {
     padding: 6px 8px;
     border-width: 2px;
     border-radius: 8px;
 }
+
 .infoText {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     line-height: 1.35;
 }
+
 .flavorText {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: rgb(139, 139, 139);
     font-style: italic;
     font-size: 13px;
 }
+
 input {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 6px;
@@ -203,22 +225,26 @@ input {
     color: white;
     transition: all 0.2s ease;
 }
+
 input:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
 }
+
 .container {
     display: flex;
     align-items: flex-start;
     gap: 20px;
     justify-content: center;
 }
+
 #leftSideElements,
 #rightSideElements {
     display: flex;
     flex-direction: column;
 }
+
 :root {
     --accent: rgb(130, 180, 220);
     --accent-glow: rgba(130, 180, 220, 0.5);
@@ -226,6 +252,7 @@ input:focus {
     --panel-mid: rgb(32, 38, 50);
     --panel-light: rgb(50, 60, 80);
 }
+
 #mineButton:active,
 .craftingButton:active {
     box-shadow:
@@ -243,6 +270,7 @@ input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 6px var(--accent-glow);
 }
+
 .item {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
@@ -250,9 +278,11 @@ input:focus {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
+
 .spanWithPadding {
     margin: 16px;
 }
+
 #mineButton,
 #log,
 #logSpecial,
@@ -266,6 +296,7 @@ input:focus {
         0 0 8px var(--accent-glow);
     transition: all 0.2s ease;
 }
+
 #box {
     border-radius: 8px;
     color: white;
@@ -279,6 +310,7 @@ input:focus {
     justify-content: center;
     align-items: center;
 }
+
 #log,
 .infoBox,
 #logSpecial,
@@ -287,18 +319,18 @@ input:focus {
 #depthInfo,
 .layer-panel,
 .craft-panel {
-    background: linear-gradient(
-        180deg,
-        var(--panel-dark) 0%,
-        var(--panel-mid) 50%,
-        var(--panel-light) 100%
-    );
+    background: linear-gradient(180deg,
+            var(--panel-dark) 0%,
+            var(--panel-mid) 50%,
+            var(--panel-light) 100%);
     border: 2px solid var(--accent);
     border-radius: 8px;
 }
+
 .buttonTextSmall {
     font-size: 14px;
 }
+
 p.noMargin {
     margin: 0 0;
 }
@@ -308,6 +340,7 @@ th,
 td {
     border: 2px solid var(--accent);
 }
+
 table {
     border-collapse: collapse;
     width: 100%;

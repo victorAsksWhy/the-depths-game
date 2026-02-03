@@ -314,7 +314,7 @@ function renderCraftingButtons() {
                 const button = document.createElement('button');
                 button.className = 'craftingButton';
                 button.innerHTML = 'Craft';
-                button.addEventListener('click', async(e) => {
+                button.addEventListener('click', async (e) => {
                     await craft(
                         recipe,
                         Number(inputForm.value),
@@ -341,9 +341,8 @@ function renderCraftingButtons() {
             panel.appendChild(header);
             panel.appendChild(collapsible);
             layerContainer.appendChild(panel);
-            layerpanel.appendChild(layerContainer);
-            //layerpanel.appendChild(layerContainer);
         }
+        layerpanel.appendChild(layerContainer);
 
         container.appendChild(layerpanel);
 
@@ -351,7 +350,7 @@ function renderCraftingButtons() {
     }
 }
 const container = document.getElementById('craftingButtons');
-container?.addEventListener('click', async(event) => {
+container?.addEventListener('click', async (event) => {
     const target = event.target as HTMLButtonElement;
     if (target.tagName !== 'BUTTON') {
         return;
